@@ -73,7 +73,7 @@ const SignUp = ({ navigation }) => {
                     isValid={isValid}
                   />
                 </View>
-                <TouchableOpacity className="pt-2 pb-6">
+                <TouchableOpacity className="pt-2 pb-6" onPress={() => navigation.navigate("OtpScreen")}>
                   <View className="flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md">
                     <Text className="font-bold text-lg text-black">
                       Sign Up

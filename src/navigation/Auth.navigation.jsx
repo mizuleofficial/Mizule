@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import SignIn from '../screens/auth/SignIn.screen';
 import SignUp from '../screens/auth/SignUp.screen';
-import { Text } from 'react-native';
+import OtpScreen from '../screens/auth/Otp.screen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -16,6 +16,7 @@ const AuthNav = () => {
 			>
 				<Screen name='SignIn' component={SignIn} />
 				<Screen name='SignUp' component={SignUp} />
+				<Screen name='OtpScreen' component={OtpScreen} />
 			</Navigator>
 		</NavigationContainer>
 	);
