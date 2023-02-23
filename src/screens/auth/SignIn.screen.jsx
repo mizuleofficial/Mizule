@@ -138,7 +138,6 @@ const SignIn = ({ navigation }) => {
 							source={require('../../assets/AuthImages/Apple.png')}
 						/>
 
-<<<<<<< HEAD
             <Text className=" font-medium text-base py-1 pl-3 text-white">
               Continue with Apple
             </Text>
@@ -147,16 +146,6 @@ const SignIn = ({ navigation }) => {
       </View>
     </View>
   );
-=======
-						<Text className=' font-medium text-base py-1 pl-3 text-white'>
-							Continue with Apple
-						</Text>
-					</View>
-				</TouchableOpacity>
-			</View>
-		</View>
-	);
->>>>>>> d32fe50d55cd038fd618e9506396e0da84adc509
 };
 
 export default SignIn;
