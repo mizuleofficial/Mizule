@@ -126,18 +126,19 @@ const SignIn = ({ navigation }) => {
               source={require("../../assets/AuthImages/Google.png")}
             />
 
-            <Text className="font-medium text-base py-1 pl-3 text-white">
-              Continue with Google
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View className="flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md">
-            <Image
-              className="w-6 h-7"
-              source={require("../../assets/AuthImages/Apple.png")}
-            />
+						<Text className='font-medium text-base py-1 pl-3 text-white'>
+							Continue with Google
+						</Text>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity>
+					<View className='flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md'>
+						<Image
+							className='w-6 h-7'
+							source={require('../../assets/AuthImages/Apple.png')}
+						/>
 
+<<<<<<< HEAD
             <Text className=" font-medium text-base py-1 pl-3 text-white">
               Continue with Apple
             </Text>
@@ -146,6 +147,16 @@ const SignIn = ({ navigation }) => {
       </View>
     </View>
   );
+=======
+						<Text className=' font-medium text-base py-1 pl-3 text-white'>
+							Continue with Apple
+						</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
+>>>>>>> d32fe50d55cd038fd618e9506396e0da84adc509
 };
 
 export default SignIn;

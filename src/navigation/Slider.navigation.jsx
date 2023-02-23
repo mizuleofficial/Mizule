@@ -1,23 +1,31 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import SignIn from '../screens/auth/SignIn.screen';
-import SignUp from '../screens/auth/SignUp.screen';
-import { Text } from 'react-native';
+import Zules from '../screens/Zules.screen';
+import Discover from '../screens/Discover.screen';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createMaterialTopTabNavigator();
 
 const SliderNav = () => {
 	return (
-		<NavigationContainer classname='bg-black'>
-			<Navigator
-				initialRouteName='SignIn'
-				screenOptions={{ headerShown: false }}
-			>
-				<Screen name='SignIn' component={SignIn} />
-				<Screen name='SignUp' component={SignUp} />
-			</Navigator>
-		</NavigationContainer>
+		<Navigator
+			initialRouteName='Zules'
+			screenOptions={{
+				headerShown: false,
+				tabBarStyle: {
+					backgroundColor: 'black'
+				},
+				tabBarLabelStyle: {
+					color: 'white'
+				},
+				tabBarIndicatorStyle: {
+					backgroundColor: 'transparent'
+				}
+			}}
+			tabBarPosition='bottom'
+		>
+			<Screen name='Zules' component={Zules} options={{swipeEnabled:false}} />
+			<Screen name='Discover' component={Discover} />
+		</Navigator>
 	);
 };
 
