@@ -1,6 +1,6 @@
 import { View, Text, Image, ImageBackground } from 'react-native';
 import React, { useState } from 'react';
-import Carousel from 'react-native-snap-carousel';
+// import Carousel from 'react-native-snap-carousel';
 import { windowHeight, windowWidth } from '../utils/constants.util';
 
 const Zules = () => {

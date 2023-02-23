@@ -34,7 +34,7 @@ const WelcomeScreen = ({ navigation }) => {
           </Text>
           <View className="h-[1px] w-[37vw] bg-zinc-700"></View>
         </View>
-        <TouchableOpacity className="pt-3 pb-5">
+        <TouchableOpacity className="pt-3 pb-5" >
           <View className="flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md">
             <Image
               className="w-7 h-7"
