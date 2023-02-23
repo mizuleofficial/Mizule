@@ -1,14 +1,16 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import "react-native-gesture-handler";
 import FormInput from "../../components/auth.components/FormInput";
 import { Formik } from "formik";
+import { signUpValidationSchema } from "../../utils/validation.utils";
 
 const SignUp = ({ navigation }) => {
+  const [signupType, setSignUpType] = useState("email");
   return (
     <View className="flex-1 items-center justify-center bg-black px-6 relative">
       <View className="flex-col">
-        <View  className="flex justify-end mb-3">
+        <View className="flex justify-end mb-5">
           <Image
             className="w-48 h-10"
             source={require("../../assets/logo.png")}
@@ -23,6 +25,7 @@ const SignUp = ({ navigation }) => {
           onSubmit={(value) => {
             handleLoginSubmit(value);
           }}
+          validationSchema={signUpValidationSchema}
         >
           {({
             handleSubmit,
@@ -34,20 +37,35 @@ const SignUp = ({ navigation }) => {
           }) => {
             return (
               <View className="w-[85vw] ">
-               
-                <View>
-                  <Text>Email or Username or Phone number</Text>
-                  <FormInput
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    value={values.email}
-                    keyboardType={"email-address"}
-                    label="Email"
-                    placeholder="peter@mizule.com"
-                    handleSubmit={handleSubmit}
-                    isValid={isValid}
-                  />
-                </View>
+                {signupType == "email" ? (
+                  <View>
+                    <Text>Email</Text>
+                    <FormInput
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      value={values.email}
+                      keyboardType={"email-address"}
+                      label="Email"
+                      placeholder="peter@mizule.com"
+                      handleSubmit={handleSubmit}
+                      isValid={isValid}
+                    />
+                  </View>
+                ) : (
+                  <View>
+                    <Text>Phone Number</Text>
+                    <FormInput
+                      onChangeText={handleChange("phone")}
+                      onBlur={handleBlur("phone")}
+                      value={values.phone}
+                      keyboardType={"phone-pad"}
+                      label="phone"
+                      placeholder="+91- 0000000000"
+                      handleSubmit={handleSubmit}
+                      isValid={isValid}
+                    />
+                  </View>
+                )}
                 <View>
                   <Text>Password</Text>
                   <FormInput
@@ -55,25 +73,27 @@ const SignUp = ({ navigation }) => {
                     onBlur={handleBlur("password")}
                     value={values.password}
                     label="Password"
-
                     placeholder="Enter your Password"
                     handleSubmit={handleSubmit}
                     isValid={isValid}
                   />
                 </View>
-				<View>
+                <View>
                   <Text>Confirm Password</Text>
                   <FormInput
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
                     value={values.confirmpassword}
-					label="Password"
+                    label="Password"
                     placeholder="Re-enter password"
                     handleSubmit={handleSubmit}
                     isValid={isValid}
                   />
                 </View>
-                <TouchableOpacity className="pt-2 pb-6" onPress={() => navigation.navigate("OtpScreen")}>
+                <TouchableOpacity
+                  className="pt-2 pb-6"
+                  onPress={() => navigation.navigate("OtpScreen")}
+                >
                   <View className="flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md">
                     <Text className="font-bold text-lg text-black">
                       Sign Up
@@ -84,7 +104,7 @@ const SignUp = ({ navigation }) => {
                 <View className="flex flex-row">
                   <Text>Already have an account?</Text>
                   <TouchableOpacity
-                    className="pb-4"
+                    className="pb-2"
                     onPress={() => navigation.navigate("SignIn")}
                   >
                     <Text className="pl-2 font-medium text-white">Sign In</Text>
@@ -94,7 +114,17 @@ const SignUp = ({ navigation }) => {
             );
           }}
         </Formik>
-        <View className="flex flex-row w-full items-center justify-center mt-2">
+        {signupType=="email" ? (
+          <TouchableOpacity onPress={() => setSignUpType("phone")}>
+            <Text>Continue with Phone Number</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={() => setSignUpType("email")}>
+            <Text>Continue with Email</Text>
+          </TouchableOpacity>
+        )}
+
+        {/* <View className="flex flex-row w-full items-center justify-center mt-2">
           <View className="h-[1px] w-[38vw] bg-zinc-700"></View>
           <Text className="flex justify-center items-center mx-2 font-extrabold">
             OR
@@ -124,7 +154,7 @@ const SignUp = ({ navigation }) => {
               Continue with Apple
             </Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import SignIn from '../screens/auth/SignIn.screen';
 import SignUp from '../screens/auth/SignUp.screen';
 import OtpScreen from '../screens/auth/Otp.screen';
+import WelcomeScreen from '../screens/auth/Welcome.screen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -11,9 +12,10 @@ const AuthNav = () => {
 	return (
 		<NavigationContainer>
 			<Navigator
-				initialRouteName='SignIn'
+				initialRouteName='WelcomeScreen'
 				screenOptions={{ headerShown: false,animationEnabled: false }}
 			>
+				<Screen name='WelcomeScreen' component={WelcomeScreen} />
 				<Screen name='SignIn' component={SignIn} />
 				<Screen name='SignUp' component={SignUp} />
 				<Screen name='OtpScreen' component={OtpScreen} />
