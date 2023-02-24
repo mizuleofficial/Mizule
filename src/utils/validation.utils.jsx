@@ -12,14 +12,14 @@ export const emailSignUpValidationSchema = Yup.object().shape({
 		.matches(/[A-Z]/, 'Password requires an uppercase letter')
 		.matches(/[^\w]/, 'Password requires a symbol')
 		.required('Password is required'),
-	confirmPassword: Yup.string()
+	confirmpassword: Yup.string()
 		.min(8, ({ min }) => `Confirm password must be at least ${min} characters`)
 		.matches(/[0-9]/, 'Confirm password requires a number')
 		.matches(/[a-z]/, 'Confirm password requires a lowercase letter')
 		.matches(/[A-Z]/, 'Confirm password requires an uppercase letter')
 		.matches(/[^\w]/, 'Confirm password requires a symbol')
 		.oneOf([Yup.ref('password'), null], 'Confirm password does not match')
-		.required('Password is required')
+		.required('Confirm password is required')
 });
 
 export const phoneSignUpValidationSchema = Yup.object().shape({
@@ -39,8 +39,8 @@ export const phoneSignUpValidationSchema = Yup.object().shape({
 		.matches(/[a-z]/, 'Confirm password requires a lowercase letter')
 		.matches(/[A-Z]/, 'Confirm password requires an uppercase letter')
 		.matches(/[^\w]/, 'Confirm password requires a symbol')
-		.oneOf([Yup.ref('password'), null], 'Confirm password does not match')
-		.required('Password is required')
+		.oneOf([Yup.ref('password'), null], 'Passwords does not match')
+		.required('Confirm password is required')
 });
 
 export const SignInValidationSchema = Yup.object().shape({
