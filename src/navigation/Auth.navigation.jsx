@@ -12,8 +12,8 @@ const AuthNav = () => {
 	return (
 		<NavigationContainer>
 			<Navigator
-				initialRouteName='WelcomeScreen'
-				screenOptions={{ headerShown: false,animationEnabled: false }}
+				initialRouteName='SignUp'
+				screenOptions={{ headerShown: false, animationEnabled: false }}
 			>
 				<Screen name='WelcomeScreen' component={WelcomeScreen} />
 				<Screen name='SignIn' component={SignIn} />
