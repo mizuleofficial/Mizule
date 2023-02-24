@@ -5,7 +5,7 @@ import AuthNav from './src/navigation/Auth.navigation';
 import MainNav from './src/navigation/Main.navigation';
 
 const App = () => {
-	var user = false;
+	var user = true;
 	return <>{user ? <MainNav /> : <AuthNav />}</>;
 };
 
