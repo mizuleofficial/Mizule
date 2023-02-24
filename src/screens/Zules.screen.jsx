@@ -124,7 +124,7 @@ const Zules = ({ navigation }) => {
 					colors={['transparent', '#000000a9', '#000000']}
 					start={{ x: 0, y: 1 }}
 					end={{ x: 0, y: 0 }}
-					locations={[0, 2]}
+					locations={[0, 2,3]}
 					className='h-24 absolute top-0 w-full z-20 flex-row justify-between items-end'
 				></LinearGradient>
 				<LinearGradient

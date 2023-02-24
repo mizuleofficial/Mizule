@@ -45,7 +45,6 @@ const SignUp = ({ navigation }) => {
 							: phoneSignUpInitialValues
 					}
 					onSubmit={(value) => {
-						console.log(value);
 						signupType == 'email'
 							? handleEmailSignUp(value)
 							: handlePhoneSignUp(value);
@@ -94,8 +93,8 @@ const SignUp = ({ navigation }) => {
 											label='phone'
 											placeholder='+91- 00000 00000'
 											handleSubmit={handleSubmit}
-											error={errors.email}
-											touched={touched.email}
+											error={errors.phonenumber}
+											touched={touched.phonenumber}
 										/>
 									</View>
 								)}
@@ -108,23 +107,25 @@ const SignUp = ({ navigation }) => {
 										label='Password'
 										placeholder='Enter your Password'
 										handleSubmit={handleSubmit}
-										isValid={isValid}
+										error={errors.password}
+										touched={touched.password}
 									/>
 								</View>
 								<View>
-									<Text>Confirm Password</Text>
 									<FormInput
 										onChangeText={handleChange('confirmpassword')}
-										onBlur={handleBlur('Confirmpassword')}
+										onBlur={handleBlur('confirmpassword')}
 										value={values.confirmpassword}
-										label='Confirm password'
+										label='Confirm password'	
 										placeholder='Re-enter password'
 										handleSubmit={handleSubmit}
-										isValid={isValid}
+										error={errors.confirmpassword}
+										touched={touched.confirmpassword}
 									/>
 								</View>
 								<TouchableOpacity
 									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md'
+									disabled={!isValid}
 									onPress={handleSubmit}
 								>
 									{/* <View className='flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md'> */}
