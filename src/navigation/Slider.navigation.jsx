@@ -23,8 +23,16 @@ const SliderNav = () => {
 			}}
 			tabBarPosition='bottom'
 		>
-			<Screen name='Zules' component={Zules} options={{swipeEnabled:false}} />
-			<Screen name='Discover' component={Discover} />
+			<Screen
+				name='Zules'
+				component={Zules}
+				options={{ swipeEnabled: false }}
+			/>
+			<Screen
+				name='Discover'
+				component={Discover}
+				options={{ swipeEnabled: false }}
+			/>
 		</Navigator>
 	);
 };
