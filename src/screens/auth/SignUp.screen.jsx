@@ -1,29 +1,34 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	Image,
+	ActivityIndicator
+} from 'react-native';
 import React, { useState } from 'react';
 import 'react-native-gesture-handler';
-import FormInput from '../../components/auth.components/FormInput';
 import { Formik } from 'formik';
-import {
-	emailSignUpValidationSchema,
-	phoneSignUpValidationSchema
-} from '../../utils/validation.utils';
 
-const SignUp = ({ navigation }) => {
-	const [signupType, setSignUpType] = useState('email');
+import FormInput from '../../components/auth.components/FormInput';
+import { emailSignUpValidationSchema } from '../../utils/validation.utils';
+import { verifyEmail } from '../../axios/auth.axios';
 
-	const handleEmailSignUp = async () => {};
+const SignUp = ({ navigation, route }) => {
+	const { params } = route;
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
-	const handlePhoneSignUp = async () => {};
-
-	const emailSignUpInitialValues = {
-		email: '',
-		password: '',
-		confirmpassword: ''
-	};
-	const phoneSignUpInitialValues = {
-		phone: '',
-		password: '',
-		confirmpassword: ''
+	const handleEmailSignUp = async (values) => {
+		setLoading(true);
+		await verifyEmail(values)
+			.then((res) => {
+				setLoading(false);
+				navigation.navigate('VerifyEmail', { ...values });
+			})
+			.catch((err) => {
+				setLoading(false);
+				setError('User already exist. Try signing in.');
+			});
 	};
 
 	return (
@@ -40,20 +45,16 @@ const SignUp = ({ navigation }) => {
 				</Text>
 				<Formik
 					initialValues={
-						signupType === 'email'
-							? emailSignUpInitialValues
-							: phoneSignUpInitialValues
+						params
+							? params
+							: {
+									email: 'srklohith05@gmail.com',
+									password: 'Loki@123',
+									confirmpassword: 'Loki@123'
+							  }
 					}
-					onSubmit={(value) => {
-						signupType == 'email'
-							? handleEmailSignUp(value)
-							: handlePhoneSignUp(value);
-					}}
-					validationSchema={
-						signupType === 'email'
-							? emailSignUpValidationSchema
-							: phoneSignUpValidationSchema
-					}
+					onSubmit={(value) => handleEmailSignUp(value)}
+					validationSchema={emailSignUpValidationSchema}
 				>
 					{({
 						handleSubmit,
@@ -66,71 +67,46 @@ const SignUp = ({ navigation }) => {
 					}) => {
 						return (
 							<View className='w-[85vw] '>
-								{signupType == 'email' ? (
-									<View>
-										<Text>Email</Text>
-										<FormInput
-											onChangeText={handleChange('email')}
-											onBlur={handleBlur('email')}
-											value={values.email}
-											keyboardType={'email-address'}
-											label='Email'
-											placeholder='peter@mizule.com'
-											handleSubmit={handleSubmit}
-											isValid={isValid}
-											error={errors.email}
-											touched={touched.email}
-										/>
-									</View>
-								) : (
-									<View>
-										<Text>Phone Number</Text>
-										<FormInput
-											onChangeText={handleChange('phone')}
-											onBlur={handleBlur('phone')}
-											value={values.phone}
-											keyboardType={'phone-pad'}
-											label='phone'
-											placeholder='+91- 00000 00000'
-											handleSubmit={handleSubmit}
-											error={errors.phonenumber}
-											touched={touched.phonenumber}
-										/>
-									</View>
-								)}
-								<View>
-									<Text>Password</Text>
-									<FormInput
-										onChangeText={handleChange('password')}
-										onBlur={handleBlur('password')}
-										value={values.password}
-										label='Password'
-										placeholder='Enter your Password'
-										handleSubmit={handleSubmit}
-										error={errors.password}
-										touched={touched.password}
-									/>
-								</View>
-								<View>
-									<FormInput
-										onChangeText={handleChange('confirmpassword')}
-										onBlur={handleBlur('confirmpassword')}
-										value={values.confirmpassword}
-										label='Confirm password'	
-										placeholder='Re-enter password'
-										handleSubmit={handleSubmit}
-										error={errors.confirmpassword}
-										touched={touched.confirmpassword}
-									/>
-								</View>
+								<FormInput
+									onChangeText={handleChange('email')}
+									onBlur={handleBlur('email')}
+									value={values.email}
+									keyboardType={'email-address'}
+									label='Email'
+									placeholder='peter@mizule.com'
+									handleSubmit={handleSubmit}
+									isValid={isValid}
+									error={errors.email}
+									touched={touched.email}
+								/>
+								<FormInput
+									onChangeText={handleChange('password')}
+									onBlur={handleBlur('password')}
+									value={values.password}
+									label='Password'
+									placeholder='Enter your Password'
+									handleSubmit={handleSubmit}
+									error={errors.password}
+									touched={touched.password}
+								/>
+								<FormInput
+									onChangeText={handleChange('confirmpassword')}
+									onBlur={handleBlur('confirmpassword')}
+									value={values.confirmpassword}
+									label='Confirm password'
+									placeholder='Re-enter password'
+									handleSubmit={handleSubmit}
+									error={errors.confirmpassword}
+									touched={touched.confirmpassword}
+								/>
+								<Text className='text-red-800'>{error}</Text>
 								<TouchableOpacity
-									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md'
-									disabled={!isValid}
+									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
 									onPress={handleSubmit}
 								>
-									{/* <View className='flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md'> */}
-									<Text className='font-bold text-lg text-black'>Sign Up</Text>
-									{/* </View> */}
+									<Text className='font-bold text-lg text-black'>
+										{loading ? <ActivityIndicator /> : 'Sign Up'}
+									</Text>
 								</TouchableOpacity>
 
 								<View className='flex flex-row'>
@@ -138,6 +114,7 @@ const SignUp = ({ navigation }) => {
 									<TouchableOpacity
 										className='pb-2'
 										onPress={() => navigation.navigate('SignIn')}
+										disabled={!loading}
 									>
 										<Text className='pl-2 font-medium text-white'>Sign In</Text>
 									</TouchableOpacity>
@@ -146,7 +123,7 @@ const SignUp = ({ navigation }) => {
 						);
 					}}
 				</Formik>
-				{signupType == 'email' ? (
+				{/* {signupType == 'email' ? (
 					<TouchableOpacity onPress={() => setSignUpType('phone')}>
 						<Text>Continue with Phone Number</Text>
 					</TouchableOpacity>
@@ -154,7 +131,7 @@ const SignUp = ({ navigation }) => {
 					<TouchableOpacity onPress={() => setSignUpType('email')}>
 						<Text>Continue with Email</Text>
 					</TouchableOpacity>
-				)}
+				)} */}
 
 				{/* <View className="flex flex-row w-full items-center justify-center mt-2">
           <View className="h-[1px] w-[38vw] bg-zinc-700"></View>

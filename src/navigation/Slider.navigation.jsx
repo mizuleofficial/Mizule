@@ -28,11 +28,11 @@ const SliderNav = () => {
 				component={Zules}
 				options={{ swipeEnabled: false }}
 			/>
-			<Screen
+			{/* <Screen
 				name='Discover'
 				component={Discover}
 				options={{ swipeEnabled: false }}
-			/>
+			/> */}
 		</Navigator>
 	);
 };

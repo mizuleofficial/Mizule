@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+
 export const emailSignUpValidationSchema = Yup.object().shape({
 	email: Yup.string()
 		.trim()
@@ -45,6 +46,20 @@ export const phoneSignUpValidationSchema = Yup.object().shape({
 
 export const SignInValidationSchema = Yup.object().shape({
 	email: Yup.string()
+		.email('Please enter valid email')
+		.required('Email Address is Required'),
+	password: Yup.string()
+		.min(8, ({ min }) => `Password must be at least ${min} characters`)
+		.matches(/[0-9]/, 'Password requires a number')
+		.matches(/[a-z]/, 'Password requires a lowercase letter')
+		.matches(/[A-Z]/, 'Password requires an uppercase letter')
+		.matches(/[^\w]/, 'Password requires a symbol')
+		.required('Password is required')
+});
+export const emailSignInValidationSchema = Yup.object().shape({
+	email: Yup.string()
+		.trim()
+		.lowercase()
 		.email('Please enter valid email')
 		.required('Email Address is Required'),
 	password: Yup.string()
