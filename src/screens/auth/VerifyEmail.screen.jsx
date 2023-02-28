@@ -15,7 +15,7 @@ const VerifyEmail = ({ route, navigation }) => {
 		Linking.addEventListener('url', async (url) => {
 			setLoading(true);
 			console.log(params);
-			await signup({ ...params,type: 'email' }).then((res) => {
+			await signup(params).then((res) => {
 				setLoading(false);
 				dispatch(createUser(res.data));
 			});
@@ -26,9 +26,7 @@ const VerifyEmail = ({ route, navigation }) => {
 			<Text>
 				Verify your email by clicking the link which is sent to {params.email}
 			</Text>
-			<TouchableOpacity
-				onPress={() => navigation.navigate('SignUp', { ...params })}
-			>
+			<TouchableOpacity onPress={() => navigation.navigate('SignUp', params)}>
 				<Text>wrong email?</Text>
 			</TouchableOpacity>
 			<TouchableOpacity onPress={openInbox}>

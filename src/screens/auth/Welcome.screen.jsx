@@ -1,9 +1,12 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { GoogleSignin,statusCodes } from '@react-native-google-signin/google-signin';
+import {
+	GoogleSignin,
+	statusCodes
+} from '@react-native-google-signin/google-signin';
 import { useDispatch } from 'react-redux';
 
-import { signup } from '../../axios/auth.axios';
+import { loginWithGoogle } from '../../axios/auth.axios';
 import { createUser } from '../../redux/reducers/user/user.slice';
 
 const WelcomeScreen = ({ navigation }) => {
@@ -24,10 +27,8 @@ const WelcomeScreen = ({ navigation }) => {
 		try {
 			await GoogleSignin.hasPlayServices();
 			const userInfo = await GoogleSignin.signIn();
-			await signup({ email: userInfo.user.email, type: 'google' }).then(
-				(res) => {
-					dispatch(createUser(res.data));
-				}
+			await loginWithGoogle(userInfo.user).then((res) =>
+				dispatch(createUser(res.data))
 			);
 		} catch (error) {
 			console.log('🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error);
@@ -38,7 +39,6 @@ const WelcomeScreen = ({ navigation }) => {
 			} else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
 				return;
 			} else {
-				navigation.navigate('SignIn');
 			}
 		}
 	};

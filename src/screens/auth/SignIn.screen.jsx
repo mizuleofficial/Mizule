@@ -1,13 +1,33 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	Image,
+	ActivityIndicator
+} from 'react-native';
+import React, { useState } from 'react';
 import 'react-native-gesture-handler';
 import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
 
 import FormInput from '../../components/auth.components/FormInput';
 import { emailSignInValidationSchema } from '../../utils/validation.utils';
+import { login } from '../../axios/auth.axios';
+import { createUser } from '../../redux/reducers/user/user.slice';
 
 const SignIn = ({ navigation }) => {
-	const handleLoginSubmit = async () => {};
+	const dispatch = useDispatch();
+
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+
+	const handleLoginSubmit = async (values) => {
+		setLoading(true);
+		await login(values).then((res) => {
+			setLoading(false);
+			dispatch(createUser(res.data));
+		});
+	};
 
 	return (
 		<View className='flex-1 items-center justify-center bg-black px-6 relative'>
@@ -22,7 +42,10 @@ const SignIn = ({ navigation }) => {
 					Sign In
 				</Text>
 				<Formik
-					initialValues={{ email: '', password: '' }}
+					initialValues={{
+						email: 'lohithr.it2020@citchennai.net',
+						password: 'Loki@123'
+					}}
 					onSubmit={(value) => handleLoginSubmit(value)}
 					validationSchema={emailSignInValidationSchema}
 				>
@@ -59,11 +82,14 @@ const SignIn = ({ navigation }) => {
 									touched={touched.password}
 									secureTextEntry={true}
 								/>
+								<Text className='text-red-800'>{error}</Text>
 								<TouchableOpacity
-									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mb-3 mt-3'
+									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
 									onPress={handleSubmit}
 								>
-									<Text className='font-bold text-lg text-black'>Sign In</Text>
+									<Text className='font-bold text-lg text-black'>
+										{loading ? <ActivityIndicator /> : 'Sign In'}
+									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity className='pb-2'>
 									<Text className=''>Forgot password ?</Text>

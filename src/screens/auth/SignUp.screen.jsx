@@ -23,7 +23,7 @@ const SignUp = ({ navigation, route }) => {
 		await verifyEmail(values)
 			.then((res) => {
 				setLoading(false);
-				navigation.navigate('VerifyEmail', { ...values });
+				navigation.navigate('VerifyEmail', values);
 			})
 			.catch((err) => {
 				setLoading(false);
@@ -48,9 +48,9 @@ const SignUp = ({ navigation, route }) => {
 						params
 							? params
 							: {
-									email: 'srklohith05@gmail.com',
-									password: 'Loki@123',
-									confirmpassword: 'Loki@123'
+									email: '',
+									password: '',
+									confirmpassword: ''
 							  }
 					}
 					onSubmit={(value) => handleEmailSignUp(value)}
