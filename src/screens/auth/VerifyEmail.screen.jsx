@@ -21,6 +21,7 @@ const VerifyEmail = ({ route, navigation }) => {
 			});
 		});
 	}, []);
+	
 	return (
 		<View className='flex-1 bg-black'>
 			<Text>

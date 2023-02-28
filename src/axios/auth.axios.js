@@ -10,4 +10,7 @@ export const loginWithGoogle = async (values) => await axios.post(`${base_url}/l
 
 export const verifyEmail = async (values) => await axios.post(`${base_url}/signup/verify`, values)
 
+export const verifyResetPasswordEmail = async (values) => await axios.post(`${base_url}/reset-password/verify`, values)
+
+export const resetPassword = async (values) => await axios.post(`${base_url}/reset-password`, values)
 

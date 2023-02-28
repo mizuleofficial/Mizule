@@ -6,7 +6,10 @@ const config = {
                 email: email => `${email}`,
                 password: password => `${password}`
             }
-        }
+        },
+        ResetPassword: {
+            path: 'reset-password',
+        },
     }
 }
 

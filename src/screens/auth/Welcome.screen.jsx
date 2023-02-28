@@ -21,25 +21,23 @@ const WelcomeScreen = ({ navigation }) => {
 			offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 			forceCodeForRefreshToken: true // [Android] related to `serverAuthCode`, read the docs link below *.
 		});
-		signIn();
+		// signIn();
 	}, []);
 	signIn = async () => {
 		try {
 			await GoogleSignin.hasPlayServices();
-			const userInfo = await GoogleSignin.signIn();
-			await loginWithGoogle(userInfo.user).then((res) =>
-				dispatch(createUser(res.data))
-			);
+			const { user } = await GoogleSignin.signIn();
+			await loginWithGoogle(user).then((res) => dispatch(createUser(res.data)));
 		} catch (error) {
 			console.log('🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error);
-			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-				return;
-			} else if (error.code === statusCodes.IN_PROGRESS) {
-				return;
-			} else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-				return;
-			} else {
-			}
+			// if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+			// 	return;
+			// } else if (error.code === statusCodes.IN_PROGRESS) {
+			// 	return;
+			// } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+			// 	return;
+			// } else {
+			// }
 		}
 	};
 	return (

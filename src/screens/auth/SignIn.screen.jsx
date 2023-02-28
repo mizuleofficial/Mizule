@@ -10,13 +10,15 @@ import 'react-native-gesture-handler';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 
-import FormInput from '../../components/auth.components/FormInput';
+import FormInput from '../../components/auth/FormInput.component';
 import { emailSignInValidationSchema } from '../../utils/validation.utils';
 import { login } from '../../axios/auth.axios';
 import { createUser } from '../../redux/reducers/user/user.slice';
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation, route }) => {
 	const dispatch = useDispatch();
+
+	const { message } = route.params;
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -82,17 +84,19 @@ const SignIn = ({ navigation }) => {
 									touched={touched.password}
 									secureTextEntry={true}
 								/>
-								<Text className='text-red-800'>{error}</Text>
+								{error && <Text className='text-red-800'>{error}</Text>}
+								{message && <Text>{message}</Text>}
 								<TouchableOpacity
 									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
 									onPress={handleSubmit}
+									disabled={loading}
 								>
 									<Text className='font-bold text-lg text-black'>
 										{loading ? <ActivityIndicator /> : 'Sign In'}
 									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity className='pb-2'>
-									<Text className=''>Forgot password ?</Text>
+									<Text>Forgot password ?</Text>
 								</TouchableOpacity>
 								<View className='flex flex-row'>
 									<Text>Don't have an account?</Text>
