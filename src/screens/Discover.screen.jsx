@@ -161,6 +161,7 @@ const Discover = () => {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
+                
               >
                 {followedZulists &&
                   followedZulists.map((followedZulist, i) => {
@@ -173,6 +174,7 @@ const Discover = () => {
                             uri: followedZulist.img,
                           }}
                         ></ImageBackground>
+                        
                       </View>
                     );
                   })}
@@ -182,6 +184,7 @@ const Discover = () => {
         </View>
        
       </View>
+      
     </View>
   );
 };
