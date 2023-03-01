@@ -1,151 +1,119 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import React, { useState } from "react";
-import "react-native-gesture-handler";
-import FormInput from "../../components/auth.components/FormInput";
-import { Formik } from "formik";
-import { SignInValidationSchema } from "../../utils/validation.utils";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	Image,
+	ActivityIndicator
+} from 'react-native';
+import React, { useState } from 'react';
+import 'react-native-gesture-handler';
+import { Formik } from 'formik';
+import { useDispatch } from 'react-redux';
 
-const SignIn = ({ navigation }) => {
-  const [signInType, setSignInType] = useState("email");
+import FormInput from '../../components/auth/FormInput.component';
+import { emailSignInValidationSchema } from '../../utils/validation.utils';
+import { login } from '../../axios/auth.axios';
+import { createUser } from '../../redux/reducers/user/user.slice';
 
-  return (
-    <View className="flex-1 items-center justify-center bg-black px-6 relative">
-      <View className="flex-col">
-        <View className="flex justify-end mb-5">
-          <Image
-            className="w-48 h-10"
-            source={require("../../assets/logo.png")}
-          />
-        </View>
-        <Text className="text-white font-extrabold text-4xl text-left pb-6">
-          Sign In
-        </Text>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={(value) => {
-            handleLoginSubmit(value);
-          }}
-          validationSchema={SignInValidationSchema}
-        >
-          {({
-            handleSubmit,
-            handleChange,
-            handleBlur,
-            values,
-            errors,
-            isValid,
-          }) => {
-            return (
-              <View className="w-[85vw] ">
-                {signInType == "email" ? (
-                  <View>
-                    <Text>Email</Text>
-                    <FormInput
-                      onChangeText={handleChange("email")}
-                      onBlur={handleBlur("email")}
-                      value={values.email}
-                      keyboardType={"email-address"}
-                      label="Email"
-                      placeholder="peter@mizule.com"
-                      handleSubmit={handleSubmit}
-                      isValid={isValid}
-                    />
-                  </View>
-                ) : (
-                  <View>
-                    <Text>Phone Number</Text>
-                    <FormInput
-                      onChangeText={handleChange("phone")}
-                      onBlur={handleBlur("phone")}
-                      value={values.phone}
-                      keyboardType={"phone-pad"}
-                      label="phone"
-                      placeholder="+91- 0000000000"
-                      handleSubmit={handleSubmit}
-                      isValid={isValid}
-                    />
-                  </View>
-                )}
-                <View>
-                  <Text>Password</Text>
-                  <FormInput
-                    onChangeText={handleChange("password")}
-                    onBlur={handleBlur("password")}
-                    value={values.password}
-                    label="Password"
-                    placeholder="Enter your Password"
-                    handleSubmit={handleSubmit}
-                    isValid={isValid}
-                    secureTextEntry={true}
-                  />
-                </View>
-                {signInType == "email" ? (
-                  <TouchableOpacity onPress={() => setSignInType("phone")}>
-                    <Text className="text-white mb-2">Continue with Phone Number</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity onPress={() => setSignInType("email")}>
-                    <Text className="text-white mb-2">Continue with Email</Text>
-                  </TouchableOpacity>
-                )}
-                <TouchableOpacity className="pt-2 pb-6">
-                  <View className="flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md">
-                    <Text className="font-bold text-lg text-black">
-                      Sign In
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity className="pb-2">
-                  <Text className="">Forgot password ?</Text>
-                </TouchableOpacity>
-                <View className="flex flex-row">
-                  <Text>Don't have an account?</Text>
-                  <TouchableOpacity
-                    className="pb-2"
-                    onPress={() => navigation.navigate("SignUp")}
-                  >
-                    <Text className="pl-2 font-medium text-white">Sign Up</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            );
-          }}
-        </Formik>
+const SignIn = ({ navigation, route }) => {
+	const dispatch = useDispatch();
 
-        {/* <View className="flex flex-row w-full items-center justify-center mt-2">
-          <View className="h-[1px] w-[38vw] bg-zinc-700"></View>
-          <Text className="flex justify-center items-center mx-2 font-extrabold">
-            OR
-          </Text>
-          <View className="h-[1px] w-[37vw] bg-zinc-700"></View>
-        </View>
-        <TouchableOpacity className="pt-6 pb-5">
-          <View className="flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md">
-            <Image
-              className="w-7 h-7"
-              source={require("../../assets/AuthImages/Google.png")}
-            />
+	const { message } = route.params;
 
-						<Text className='font-medium text-base py-1 pl-3 text-white'>
-							Continue with Google
-						</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity>
-					<View className='flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md'>
-						<Image
-							className='w-6 h-7'
-							source={require('../../assets/AuthImages/Apple.png')}
-						/>
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 
-            <Text className=" font-medium text-base py-1 pl-3 text-white">
-              Continue with Apple
-            </Text>
-          </View>
-        </TouchableOpacity> */}
-      </View>
-    </View>
-  );
+	const handleLoginSubmit = async (values) => {
+		setLoading(true);
+		await login(values).then((res) => {
+			setLoading(false);
+			dispatch(createUser(res.data));
+		});
+	};
+
+	return (
+		<View className='flex-1 items-center justify-center bg-black px-6 relative'>
+			<View className='flex-col'>
+				<View className='flex justify-end mb-5'>
+					<Image
+						className='w-48 h-10'
+						source={require('../../assets/logo.png')}
+					/>
+				</View>
+				<Text className='text-white font-extrabold text-4xl text-left pb-6'>
+					Sign In
+				</Text>
+				<Formik
+					initialValues={{
+						email: 'lohithr.it2020@citchennai.net',
+						password: 'Loki@123'
+					}}
+					onSubmit={(value) => handleLoginSubmit(value)}
+					validationSchema={emailSignInValidationSchema}
+				>
+					{({
+						handleSubmit,
+						handleChange,
+						handleBlur,
+						values,
+						errors,
+						isValid,
+						touched
+					}) => {
+						return (
+							<View className='w-[85vw] '>
+								<FormInput
+									onChangeText={handleChange('email')}
+									onBlur={handleBlur('email')}
+									value={values.email}
+									keyboardType={'email-address'}
+									label='Email'
+									placeholder='peter@mizule.com'
+									handleSubmit={handleSubmit}
+									error={errors.email}
+									touched={touched.email}
+								/>
+								<FormInput
+									onChangeText={handleChange('password')}
+									onBlur={handleBlur('password')}
+									value={values.password}
+									label='Password'
+									placeholder='Enter your Password'
+									handleSubmit={handleSubmit}
+									error={errors.password}
+									touched={touched.password}
+									secureTextEntry={true}
+								/>
+								{error && <Text className='text-red-800'>{error}</Text>}
+								{message && <Text>{message}</Text>}
+								<TouchableOpacity
+									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
+									onPress={handleSubmit}
+									disabled={loading}
+								>
+									<Text className='font-bold text-lg text-black'>
+										{loading ? <ActivityIndicator /> : 'Sign In'}
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity className='pb-2'>
+									<Text>Forgot password ?</Text>
+								</TouchableOpacity>
+								<View className='flex flex-row'>
+									<Text>Don't have an account?</Text>
+									<TouchableOpacity
+										className='pb-2'
+										onPress={() => navigation.navigate('SignUp')}
+									>
+										<Text className='pl-2 font-medium text-white'>Sign Up</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						);
+					}}
+				</Formik>
+			</View>
+		</View>
+	);
 };
 
 export default SignIn;

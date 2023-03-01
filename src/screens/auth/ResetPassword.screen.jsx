@@ -3,32 +3,52 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
-	ActivityIndicator
+	ActivityIndicator,
+	Linking
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { Formik } from 'formik';
 
 import FormInput from '../../components/auth/FormInput.component';
-import { emailSignUpValidationSchema } from '../../utils/validation.utils';
-import { verifyEmail } from '../../axios/auth.axios';
+import {
+	ResetPasswordEmailValidationSchema,
+	ResetPasswordValidationSchema
+} from '../../utils/validation.utils';
+import {
+	verifyResetPasswordEmail,
+	resetPassword
+} from '../../axios/auth.axios';
 
-const SignUp = ({ navigation, route }) => {
-	const { params } = route;
+const ResetPassword = ({ navigation }) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
+	const [isVerified, setIsVerified] = useState(false);
+	const [message, setMessage] = useState('');
 
-	const handleEmailSignUp = async (values) => {
+	useEffect(() => {
+		Linking.addEventListener('url', async (url) => {
+			setMessage('');
+			setIsVerified(true);
+		});
+	}, []);
+
+	const handleVerifyEmail = async (values) => {
 		setLoading(true);
-		await verifyEmail(values)
-			.then((res) => {
-				setLoading(false);
-				navigation.navigate('VerifyEmail', values);
-			})
-			.catch((err) => {
-				setLoading(false);
-				setError('User already exist. Try signing in.');
+		await verifyResetPasswordEmail(values).then((res) => {
+			setLoading(false);
+			setMessage('Check your email');
+		});
+	};
+
+	const handleResetPassword = async (values) => {
+		setLoading(true);
+		await resetPassword(values).then((res) => {
+			setLoading(false);
+			navigation.navigate('SignIn', {
+				message: 'Password resetted successfully. Try signing in.'
 			});
+		});
 	};
 
 	return (
@@ -41,20 +61,22 @@ const SignUp = ({ navigation, route }) => {
 					/>
 				</View>
 				<Text className='text-white font-extrabold text-3xl text-left pb-5'>
-					Sign Up
+					Reset Password
 				</Text>
 				<Formik
 					initialValues={
-						params
-							? params
-							: {
-									email: '',
-									password: '',
-									confirmpassword: ''
-							  }
+						isVerified
+							? { email: '', password: '', confirmpassword: '' }
+							: { email: '' }
 					}
-					onSubmit={(value) => handleEmailSignUp(value)}
-					validationSchema={emailSignUpValidationSchema}
+					onSubmit={(value) => {
+						isVerified ? handleResetPassword(value) : handleVerifyEmail(value);
+					}}
+					validationSchema={
+						isVerified
+							? ResetPasswordValidationSchema
+							: ResetPasswordEmailValidationSchema
+					}
 				>
 					{({
 						handleSubmit,
@@ -78,40 +100,61 @@ const SignUp = ({ navigation, route }) => {
 									isValid={isValid}
 									error={errors.email}
 									touched={touched.email}
+									editable={!(loading || Boolean(message.length))}
 								/>
-								<FormInput
-									onChangeText={handleChange('password')}
-									onBlur={handleBlur('password')}
-									value={values.password}
-									label='Password'
-									placeholder='Enter your Password'
-									handleSubmit={handleSubmit}
-									error={errors.password}
-									touched={touched.password}
-								/>
-								<FormInput
-									onChangeText={handleChange('confirmpassword')}
-									onBlur={handleBlur('confirmpassword')}
-									value={values.confirmpassword}
-									label='Confirm password'
-									placeholder='Re-enter password'
-									handleSubmit={handleSubmit}
-									error={errors.confirmpassword}
-									touched={touched.confirmpassword}
-								/>
+								{isVerified && (
+									<>
+										<FormInput
+											onChangeText={handleChange('password')}
+											onBlur={handleBlur('password')}
+											value={values.password}
+											label='Password'
+											placeholder='Enter your Password'
+											handleSubmit={handleSubmit}
+											error={errors.password}
+											touched={touched.password}
+										/>
+										<FormInput
+											onChangeText={handleChange('confirmpassword')}
+											onBlur={handleBlur('confirmpassword')}
+											value={values.confirmpassword}
+											label='Confirm password'
+											placeholder='Re-enter password'
+											handleSubmit={handleSubmit}
+											error={errors.confirmpassword}
+											touched={touched.confirmpassword}
+										/>
+									</>
+								)}
 								{error && <Text className='text-red-800'>{error}</Text>}
 								<TouchableOpacity
 									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
 									onPress={handleSubmit}
-									disabled={loading}
+									disabled={
+										loading
+											? true
+											: loading || Boolean(message.length)
+											? true
+											: isVerified || !Boolean(message.length)
+											? false
+											: true
+									}
 								>
 									<Text className='font-bold text-lg text-black'>
-										{loading ? <ActivityIndicator /> : 'Sign Up'}
+										{loading ? (
+											<ActivityIndicator />
+										) : !message.length || isVerified ? (
+											'Verify Email'
+										) : message ? (
+											message
+										) : (
+											'Reset Password'
+										)}
 									</Text>
 								</TouchableOpacity>
 
 								<View className='flex flex-row'>
-									<Text>Already have an account?</Text>
+									<Text>Know your password already?</Text>
 									<TouchableOpacity
 										className='pb-2'
 										onPress={() => navigation.navigate('SignIn')}
@@ -169,4 +212,4 @@ const SignUp = ({ navigation, route }) => {
 	);
 };
 
-export default SignUp;
+export default ResetPassword;

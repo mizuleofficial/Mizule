@@ -5,47 +5,35 @@ import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
 
 import { windowHeight, windowWidth } from '../utils/constants.util';
+import { getRandomZules } from '../axios/zule.axios';
+import { base_url } from '../utils/constants.util';
 
 const Zules = ({ navigation }) => {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [hideThumbnail, setHideThumbnail] = useState(false);
+	const [randomZules, setRandomZules] = useState([]);
 
-	const [carouselItems, setCarouselItems] = useState([
-		{
-			title: 'Item 1',
-			description:
-				'njjknhj jkhkjnj kjhj jk hj hjv ghhg ghvghvhjbghv vghvbhvgh bvbhc ghhbhbu.',
-			zuleTeaserThumbnail: '',
-			zuleTeaserLink:
-				'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
-			zuleThumbnail: 'https://wallpaperaccess.com/full/2713199.jpg',
-			zuleLink: 'https://wallpaperaccess.com/full/2713199.jpg'
-		},
-		{
-			title: 'Item 1',
-			description:
-				'njjknhj jkhkjnj kjhj jk hj hjv ghhg ghvghvhjbghv vghvbhvgh bvbhc ghhbhbu.',
-			zuleTeaserThumbnail: '',
-			zuleTeaserLink:
-				'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
-			zuleThumbnail: 'https://wallpaperaccess.com/full/2713199.jpg',
-			zuleLink: 'https://wallpaperaccess.com/full/2713199.jpg'
-		},
-		{
-			title: 'Item 1',
-			description:
-				'njjknhj jkhkjnj kjhj jk hj hjv ghhg ghvghvhjbghv vghvbhvgh bvbhc ghhbhbu.',
-			zuleTeaserThumbnail: '',
-			zuleTeaserLink:
-				'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
-			zuleThumbnail: 'https://wallpaperaccess.com/full/2713199.jpg',
-			zuleLink: 'https://wallpaperaccess.com/full/2713199.jpg'
-		}
-	]);
+	const fetchRandomZules = async (zuleOffset) => {
+		// , user && user.token
+		getRandomZules(zuleOffset).then((res) => {
+			if (!res.data.length) return;
+			const zules = res.data.map((zule) => {
+				const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-teaser.mp4`;
+				const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-zule.mp4`;
+				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-thumbnail.jpg`;
+				return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
+			});
+			// cacheVideo(zules[0].zuleTeaser, user.token);
+			// cacheVideo(zules[1].zuleTeaser, user.token);
+			// getCachedVideo(zules[0].zuleTeaser).then((res) =>
+			//     setCurrentPlayingTeaserPath(res)
+			// );
+			setRandomZules([...randomZules, ...zules]);
+		});
+	};
 
 	useEffect(() => {
-		console.log(activeIndex);
-
+		fetchRandomZules(0);
 		setHideThumbnail(false);
 		setTimeout(() => {
 			setHideThumbnail(true);
@@ -111,7 +99,7 @@ const Zules = ({ navigation }) => {
 					/>
 				</Pressable>
 				<Video
-					source={{ uri: item.zuleTeaserLink }} // Can be a URL or a local file.
+					source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
 					ref={(ref) => {}} // Store reference
 					// onBuffer={this.onBuffer} // Callback when remote video is buffering
 					// onError={this.videoError} // Callback when video cannot be loaded
@@ -124,7 +112,7 @@ const Zules = ({ navigation }) => {
 					colors={['transparent', '#000000a9', '#000000']}
 					start={{ x: 0, y: 1 }}
 					end={{ x: 0, y: 0 }}
-					locations={[0, 2,3]}
+					locations={[0, 2, 3]}
 					className='h-24 absolute top-0 w-full z-20 flex-row justify-between items-end'
 				></LinearGradient>
 				<LinearGradient
@@ -136,7 +124,7 @@ const Zules = ({ navigation }) => {
 						<Text className='text-base text-gray-200'>{item.description}</Text>
 					</View>
 					<View className='justify-center items-center'>
-						<View className='mb-2'>
+						{/* <View className='mb-2'>
 							{false ? (
 								<Image
 									source={{
@@ -152,8 +140,8 @@ const Zules = ({ navigation }) => {
 									className='w-9 h-9'
 								/>
 							)}
-						</View>
-						<View className='mb-4'>
+						</View> */}
+						{/* <View className='mb-4'>
 							{false ? (
 								<Image
 									source={{
@@ -169,13 +157,13 @@ const Zules = ({ navigation }) => {
 									className='w-8 h-8'
 								/>
 							)}
-						</View>
-						<Pressable onPress={() => navigation.navigate('WatchZule')}>
+						</View> */}
+						{/* <Pressable onPress={() => navigation.navigate('WatchZule')}>
 							<Image
 								source={require('../assets/Z-silver-png.png')}
 								className='w-8 h-8'
 							/>
-						</Pressable>
+						</Pressable> */}
 					</View>
 				</LinearGradient>
 			</View>
@@ -189,7 +177,7 @@ const Zules = ({ navigation }) => {
 			<View className='p-3 py-5 pt-1 flex-1'>
 				<Carousel
 					ref={(ref) => (carousel = ref)}
-					data={carouselItems}
+					data={randomZules}
 					sliderWidth={windowWidth - 24}
 					itemWidth={windowWidth - 24}
 					renderItem={_renderItem}
