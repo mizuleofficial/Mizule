@@ -1,14 +1,12 @@
-import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import Carousel, { getInputRangeFromIndexes } from 'react-native-snap-carousel';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
-import ActionButton from 'react-native-circular-action-menu';
-import Icon from 'react-native-vector-icons/Ionicons';
 
-import { windowHeight, windowWidth } from '../utils/constants.util';
 import { getRandomZules } from '../axios/zule.axios';
 import { base_url } from '../utils/constants.util';
+import CircularNav from '../components/extras/CircularNav.component';
+import SliderCarousel from '../components/extras/Carousel.component';
 
 const Zules = ({ navigation }) => {
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -42,91 +40,57 @@ const Zules = ({ navigation }) => {
 		}, 3000);
 	}, [activeIndex]);
 
-	function scrollInterpolator4(index, carouselProps) {
-		const range = [1, 0, -1];
-		const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
-		const outputRange = range;
-
-		return { inputRange, outputRange };
-	}
-	function animatedStyles4(index, animatedValue, carouselProps) {
-		return {
-			zIndex: carouselProps.data.length - index,
-			opacity: animatedValue.interpolate({
-				inputRange: [-1, 0, 1],
-				outputRange: [0.75, 1, 0.75],
-				extrapolate: 'clamp'
-			}),
-			transform: [
-				{
-					perspective: 1000
-				},
-				{
-					scale: animatedValue.interpolate({
-						inputRange: [-1, 0, 1],
-						outputRange: [0.65, 1, 0.65],
-						extrapolate: 'clamp'
-					})
-				},
-				{
-					rotateX: animatedValue.interpolate({
-						inputRange: [-1, 0, 1],
-						outputRange: ['30deg', '0deg', '30deg'],
-						extrapolate: 'clamp'
-					})
-				},
-				{
-					rotateY: animatedValue.interpolate({
-						inputRange: [-1, 0, 1],
-						outputRange: ['-30deg', '0deg', '30deg'],
-						extrapolate: 'clamp'
-					})
-				}
-			]
-		};
-	}
-
-	const _renderItem = ({ item, index }) => {
-		return (
-			<View className='flex-1 rounded-lg overflow-hidden justify-end relative'>
-				<Pressable
-					onPress={() => setHideThumbnail(!hideThumbnail)}
-					className='w-full h-full absolute z-10'
-				>
-					<Image
-						source={{ uri: item.zuleThumbnail }}
-						className={`w-full h-full absolute z-10 ${
-							!hideThumbnail ? 'opacity-100' : 'opacity-0'
-						}`}
-					/>
-				</Pressable>
-				<Video
-					source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
-					ref={(ref) => {}} // Store reference
-					// onBuffer={this.onBuffer} // Callback when remote video is buffering
-					// onError={this.videoError} // Callback when video cannot be loaded
-					onEnd={() => setHideThumbnail(!hideThumbnail)}
-					className='h-full'
-					resizeMode='cover'
-					paused={hideThumbnail ? false : true}
-				/>
-				<LinearGradient
-					colors={['transparent', '#000000a9', '#000000']}
-					start={{ x: 0, y: 1 }}
-					end={{ x: 0, y: 0 }}
-					locations={[0, 2, 3]}
-					className='h-24 absolute top-0 w-full z-20 flex-row justify-between items-end'
-				></LinearGradient>
-				<LinearGradient
-					colors={['transparent', '#000000']}
-					className='pt-12 p-3 absolute bottom-0 w-full z-20 flex-row justify-between items-end'
-				>
-					<View>
-						<Text className='text-xl font-black text-white'>{item.title}</Text>
-						<Text className='text-base text-gray-200'>{item.description}</Text>
-					</View>
-					<View className='justify-center items-center'>
-						{/* <View className='mb-2'>
+	return (
+		<View className='bg-black flex-1'>
+			<LinearGradient
+				colors={['#000000', '#000000bd', '#0000008d', 'transparent']}
+				locations={[0, 0.5, 0.7, 1]}
+				start={{ x: 0, y: 0 }}
+				end={{ x: 0, y: 1 }}
+				className='bg-opacity-40 absolute top-0 left-0 z-10 w-full p-3 pb-12'
+			>
+				<Image source={require('../assets/logo.png')} className='w-36 h-8' />
+			</LinearGradient>
+			<View className='flex-1'>
+				<SliderCarousel randomZules={randomZules}>
+					{({ item, index }) => {
+						return (
+							<View className='flex-1 rounded-lg overflow-hidden justify-end relative'>
+								<Pressable
+									onPress={() => setHideThumbnail(!hideThumbnail)}
+									className='w-full h-full absolute z-10'
+								>
+									<Image
+										source={{ uri: item.zuleThumbnail }}
+										className={`w-full h-full absolute z-10 ${
+											!hideThumbnail ? 'opacity-100' : 'opacity-0'
+										}`}
+									/>
+								</Pressable>
+								<Video
+									source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
+									ref={(ref) => {}} // Store reference
+									// onBuffer={this.onBuffer} // Callback when remote video is buffering
+									// onError={this.videoError} // Callback when video cannot be loaded
+									onEnd={() => setHideThumbnail(!hideThumbnail)}
+									className='h-full'
+									resizeMode='cover'
+									paused={!hideThumbnail}
+								/>
+								<LinearGradient
+									colors={['transparent', '#000000']}
+									className='pt-12 p-3 absolute bottom-0 w-full z-20 flex-row justify-between items-end'
+								>
+									<View>
+										<Text className='text-xl font-black text-white'>
+											{item.title}
+										</Text>
+										<Text className='text-base text-gray-200'>
+											{item.description}
+										</Text>
+									</View>
+									<View className='justify-center items-center'>
+										{/* <View className='mb-2'>
 							{false ? (
 								<Image
 									source={{
@@ -143,7 +107,7 @@ const Zules = ({ navigation }) => {
 								/>
 							)}
 						</View> */}
-						{/* <View className='mb-4'>
+										{/* <View className='mb-4'>
 							{false ? (
 								<Image
 									source={{
@@ -160,71 +124,22 @@ const Zules = ({ navigation }) => {
 								/>
 							)}
 						</View> */}
-						{/* <Pressable onPress={() => navigation.navigate('WatchZule')}>
+										{/* <Pressable onPress={() => navigation.navigate('WatchZule')}>
 							<Image
 								source={require('../assets/Z-silver-png.png')}
 								className='w-8 h-8'
 							/>
-						</Pressable> */}
-					</View>
-				</LinearGradient>
+						</Pressable>*/}
+									</View>
+								</LinearGradient>
+							</View>
+						);
+					}}
+				</SliderCarousel>
 			</View>
-		);
-	};
-	return (
-		<View className='bg-black flex-1'>
-			<View className='p-3 pb-2 bg-opacity-40'>
-				<Image source={require('../assets/logo.png')} className='w-36 h-8' />
-			</View>
-			<View className='p-3 py-5 pt-1 flex-1'>
-				<Carousel
-					ref={(ref) => (carousel = ref)}
-					data={randomZules}
-					sliderWidth={windowWidth - 24}
-					itemWidth={windowWidth - 24}
-					renderItem={_renderItem}
-					onSnapToItem={(index) => setActiveIndex(index)}
-					scrollInterpolator={scrollInterpolator4}
-					slideInterpolatedStyle={animatedStyles4}
-					layoutCardOffset={0}
-					activeSlideOffset={0}
-				/>
-			</View>
-			<ActionButton buttonColor='rgba(231,76,60,1)' position='right'>
-				<ActionButton.Item
-					buttonColor='#9b59b6'
-					title='New Task'
-					onPress={() => console.log('notes tapped!')}
-				>
-					<Icon name='android-create' style={styles.actionButtonIcon} />
-				</ActionButton.Item>
-				<ActionButton.Item
-					buttonColor='#3498db'
-					title='Notifications'
-					onPress={() => {}}
-				>
-					<Icon
-						name='android-notifications-none'
-						style={styles.actionButtonIcon}
-					/>
-				</ActionButton.Item>
-				<ActionButton.Item
-					buttonColor='#1abc9c'
-					title='All Tasks'
-					onPress={() => {}}
-				>
-					<Icon name='android-done-all' style={styles.actionButtonIcon} />
-				</ActionButton.Item>
-			</ActionButton>
+			<CircularNav navigation={navigation} />
 		</View>
 	);
 };
-const styles = StyleSheet.create({
-	actionButtonIcon: {
-		fontSize: 20,
-		height: 22,
-		color: 'white'
-	}
-});
 
 export default Zules;
