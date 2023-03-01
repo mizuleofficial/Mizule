@@ -18,7 +18,7 @@ import { createUser } from '../../redux/reducers/user/user.slice';
 const SignIn = ({ navigation, route }) => {
 	const dispatch = useDispatch();
 
-	const { message } = route.params;
+	const { params } = route;
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -85,7 +85,7 @@ const SignIn = ({ navigation, route }) => {
 									secureTextEntry={true}
 								/>
 								{error && <Text className='text-red-800'>{error}</Text>}
-								{message && <Text>{message}</Text>}
+								{params && params.message && <Text>{params.message}</Text>}
 								<TouchableOpacity
 									className='pt-2 pb-6 flex border border-gray-200 py-2 justify-center items-center bg-white rounded-md mt-2 mb-3'
 									onPress={handleSubmit}

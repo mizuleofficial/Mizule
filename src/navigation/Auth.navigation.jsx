@@ -16,7 +16,7 @@ const AuthNav = () => {
 	return (
 		<NavigationContainer linking={linking}>
 			<Navigator
-				initialRouteName='ResetPassword'
+				initialRouteName='WelcomeScreen'
 				screenOptions={{ headerShown: false, animationEnabled: false }}
 			>
 				<Screen name='WelcomeScreen' component={WelcomeScreen} />
