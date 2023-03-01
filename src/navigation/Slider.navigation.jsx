@@ -2,6 +2,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import Zules from '../screens/Zules.screen';
 import Discover from '../screens/Discover.screen';
+import Profile from '../screens/Profile.screen';
 
 const { Navigator, Screen } = createMaterialTopTabNavigator();
 
@@ -28,11 +29,16 @@ const SliderNav = () => {
 				component={Zules}
 				options={{ swipeEnabled: false }}
 			/>
-			{/* <Screen
+			<Screen
 				name='Discover'
 				component={Discover}
 				options={{ swipeEnabled: false }}
-			/> */}
+			/>
+			<Screen
+				name='Profile'
+				component={Profile}
+				options={{ swipeEnabled: false }}
+			/>
 		</Navigator>
 	);
 };
