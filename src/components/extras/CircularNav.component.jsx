@@ -31,14 +31,14 @@ const CircularNav = ({ navigation }) => {
 			<ActionButton.Item
 				buttonColor='#3498db'
 				title='Notifications'
-				onPress={() => {}}
+				onPress={() => navigation.navigate('Discover')}
 			>
 				<Icon name='rightcircle' style={styles.actionButtonIcon} />
 			</ActionButton.Item>
 			<ActionButton.Item
 				buttonColor='#1abc9c'
 				title='All Tasks'
-				onPress={() => {}}
+				onPress={() => navigation.navigate('Profile')}
 			>
 				<Icon name='rightcircle' style={styles.actionButtonIcon} />
 			</ActionButton.Item>
