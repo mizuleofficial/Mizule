@@ -1,8 +1,8 @@
 import React from 'react';
 import Carousel, { getInputRangeFromIndexes } from 'react-native-snap-carousel';
-import { windowHeight, windowWidth } from '../../utils/constants.util';
+import { windowWidth } from '../../utils/constants.util';
 
-const SliderCarousel = ({ children, randomZules }) => {
+const SliderCarousel = ({ children, randomZules,setActiveIndex }) => {
 	function scrollInterpolator4(index, carouselProps) {
 		const range = [1, 0, -1];
 		const inputRange = getInputRangeFromIndexes(range, index, carouselProps);
@@ -61,7 +61,5 @@ const SliderCarousel = ({ children, randomZules }) => {
 		/>
 	);
 };
-
-const Item = ({ item, index }) => <View>{{ children }}</View>;
 
 export default SliderCarousel;
