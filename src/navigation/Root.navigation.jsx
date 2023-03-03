@@ -6,7 +6,7 @@ import MainNav from './Main.navigation';
 
 const RootNav = () => {
 	var { user } = useSelector((state) => ({ ...state }));
-	return <>{user ? <AuthNav /> :<MainNav /> }</>;
+	return <>{!user ? <AuthNav /> : <MainNav />}</>;
 };
 
 export default RootNav;

@@ -16,10 +16,7 @@ const IndividualZuleDetails = ({ zule }) => {
 
 	return (
 		<View>
-			<BlurView
-				style={{ width: windowWidth, height: windowHeight }}
-				blurRadius={10}
-			>
+			<BlurView className='w-full h-full' blurRadius={10}>
 				<View className='flex-1'>
 					<LinearGradient
 						colors={[bgColor, bgColor, bgColor, 'transparent']}
@@ -78,6 +75,64 @@ const IndividualZuleDetails = ({ zule }) => {
 								/>
 							</Pressable>
 						</View>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
+						<Text>IndividualZuleDetails</Text>
 						<Text>IndividualZuleDetails</Text>
 						<Text>IndividualZuleDetails</Text>
 						<Text>IndividualZuleDetails</Text>

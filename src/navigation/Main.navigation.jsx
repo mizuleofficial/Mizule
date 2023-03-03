@@ -14,7 +14,7 @@ const MainNav = () => {
 	return (
 		<NavigationContainer>
 			<Navigator
-				initialRouteName='Profile'
+				initialRouteName='Zules'
 				screenOptions={{ headerShown: false, animationEnabled: false }}
 				detachInactiveScreens={true}
 			>
@@ -23,7 +23,6 @@ const MainNav = () => {
 				<Screen name='WatchZule' component={WatchZule} />
 				<Screen name='Setting' component={Setting} />
 				<Screen name='Profile' component={Profile} />
-
 			</Navigator>
 		</NavigationContainer>
 	);
