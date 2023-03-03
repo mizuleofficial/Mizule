@@ -6,6 +6,7 @@ import Zules from '../screens/Zules.screen';
 import Discover from '../screens/Discover.screen';
 import WatchZule from '../screens/WatchZule.screen';
 import Setting from '../screens/Setting.screen';
+import Profile from '../screens/Profile.screen';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -21,6 +22,7 @@ const MainNav = () => {
 				<Screen name='Discover' component={Discover} />
 				<Screen name='WatchZule' component={WatchZule} />
 				<Screen name='Setting' component={Setting} />
+				<Screen name='Profile' component={Profile} />
 			</Navigator>
 		</NavigationContainer>
 	);

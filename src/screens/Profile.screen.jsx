@@ -9,10 +9,18 @@ import {
 import React, { useState } from "react";
 import { windowHeight, windowWidth } from "../utils/constants.util";
 
+import { getRandomZules } from "../axios/zule.axios";
+import SliderCarousel from "../components/extras/Carousel.component";
+import ProfileCarousel from "../components/ProfileCarousel/profileCarousel";
+
 const Profile = () => {
-  const [cardType, setcardType] = useState("History");
+  const [cardType, setCardType] = useState("History");
   const types = ["History", "Liked Zules", "WatchLater", "Downloads"];
-  console.log(cardType);
+  const LikedZules = [
+    {
+      img: "nghngf",
+    },
+  ];
   return (
     <View className="flex-1 bg-black p-5">
       <View className="flex flex-row justify-between items-center ">
@@ -61,19 +69,22 @@ const Profile = () => {
         style={{ width: windowWidth - 40, height: windowHeight / 15 }}
       >
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-    
-
           {types.map((item, key) => (
-            <TouchableOpacity onPress={()=>setcardType(item)}>
+            <TouchableOpacity onPress={() => setCardType(item)}>
               <Text key={key} className="text-base font-bold pl-6  pr-3 ">
                 {" "}
                 {item}
               </Text>
             </TouchableOpacity>
           ))}
-          
         </ScrollView>
       </View>
+
+      <SliderCarousel randomZules={LikedZules}>
+        {({ item, index }) => {
+          return <ProfileCarousel item={item} />;
+        }}
+      </SliderCarousel>
     </View>
   );
 };
