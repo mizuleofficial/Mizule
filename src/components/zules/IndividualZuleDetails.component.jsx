@@ -16,10 +16,7 @@ const IndividualZuleDetails = ({ zule }) => {
 
 	return (
 		<View>
-			<BlurView
-			className='w-full h-full'
-				blurRadius={10}
-			>
+			<BlurView className='w-full h-full' blurRadius={10}>
 				<View className='flex-1'>
 					<LinearGradient
 						colors={[bgColor, bgColor, bgColor, 'transparent']}

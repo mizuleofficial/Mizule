@@ -28,7 +28,7 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 	return (
 		<View className='rounded-lg  justify-end'>
 			<ScrollView className=''>
-				<View onPress={() => setHideThumbnail(!hideThumbnail)}>
+				<View>
 					<View className='h-screen w-full'>
 						<LinearGradient
 							colors={['#000000', '#000000bd', '#0000008d', 'transparent']}
@@ -43,7 +43,10 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 							/>
 						</LinearGradient>
 						<View className='h-screen w-full absolute top-0 left-0'>
-							<Pressable className='w-full h-full'>
+							<Pressable
+								className='w-full h-full'
+								onPress={() => setHideThumbnail(!hideThumbnail)}
+							>
 								<Animated.Image
 									source={{ uri: item.zuleThumbnail }}
 									className={`w-full h-full transition-opacity ${
@@ -64,6 +67,7 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 							/>
 						</View>
 					</View>
+
 					{/* <IndividualZuleDetails zule={item} /> */}
 				</View>
 			</ScrollView>
