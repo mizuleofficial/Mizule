@@ -1,6 +1,5 @@
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 
 import { getRandomZules } from '../axios/zule.axios';
@@ -47,17 +46,8 @@ const Zules = ({ navigation }) => {
 	return (
 		<View className='bg-black flex-1'>
 			<View className='flex-1 relative'>
-				<LinearGradient
-					colors={['#000000', '#000000bd', '#0000008d', 'transparent']}
-					locations={[0, 0.5, 0.7, 1]}
-					start={{ x: 0, y: 0 }}
-					end={{ x: 0, y: 1 }}
-					className='bg-opacity-40 absolute top-0 left-0 z-10 w-full p-3 pb-12 flex-1'
-				>
-					<Image source={require('../assets/logo.png')} className='w-36 h-8' />
-				</LinearGradient>
 				<SliderCarousel
-					randomZules={[randomZules[0]]}
+					randomZules={randomZules}
 					setActiveIndex={setActiveIndex}
 				>
 					{({ item, index }) => (
