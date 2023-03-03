@@ -61,7 +61,7 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 								// onBuffer={this.onBuffer} // Callback when remote video is buffering
 								// onError={this.videoError} // Callback when video cannot be loaded
 								onEnd={() => setHideThumbnail(!hideThumbnail)}
-								className='h-full'
+								className='h-full w-full'
 								resizeMode='cover'
 								paused={hideThumbnail}
 							/>
