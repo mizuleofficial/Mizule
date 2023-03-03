@@ -9,33 +9,18 @@ import {
 import React, { useState } from "react";
 import { windowHeight, windowWidth } from "../utils/constants.util";
 
-import { getRandomZules } from '../axios/zule.axios';
+import { getRandomZules } from "../axios/zule.axios";
 import SliderCarousel from "../components/extras/Carousel.component";
-
+import ProfileCarousel from "../components/ProfileCarousel/profileCarousel";
 
 const Profile = () => {
-  const [cardType, setcardType] = useState("History");
+  const [cardType, setCardType] = useState("History");
   const types = ["History", "Liked Zules", "WatchLater", "Downloads"];
-  const [randomZules, setRandomZules] = useState([]);
-
-	const fetchRandomZules = async (zuleOffset) => {
-		// , user && user.token
-		getRandomZules(zuleOffset).then((res) => {
-			if (!res.data.length) return;
-			const zules = res.data.map((zule) => {
-				const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-teaser.mp4`;
-				const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-zule.mp4`;
-				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-thumbnail.jpg`;
-				return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
-			});
-			// cacheVideo(zules[0].zuleTeaser, user.token);
-			// cacheVideo(zules[1].zuleTeaser, user.token);
-			// getCachedVideo(zules[0].zuleTeaser).then((res) =>
-			//     setCurrentPlayingTeaserPath(res)
-			// );
-			setRandomZules([...randomZules, ...zules]);
-		});
-	};
+  const LikedZules = [
+    {
+      img: "nghngf",
+    },
+  ];
   return (
     <View className="flex-1 bg-black p-5">
       <View className="flex flex-row justify-between items-center ">
@@ -84,63 +69,22 @@ const Profile = () => {
         style={{ width: windowWidth - 40, height: windowHeight / 15 }}
       >
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-    
-
           {types.map((item, key) => (
-            <TouchableOpacity onPress={()=>setcardType(item)}>
+            <TouchableOpacity onPress={() => setCardType(item)}>
               <Text key={key} className="text-base font-bold pl-6  pr-3 ">
                 {" "}
                 {item}
               </Text>
             </TouchableOpacity>
           ))}
-          
         </ScrollView>
-       
       </View>
-      <SliderCarousel randomZules={randomZules}>
-       {({ item, index }) => {
-						return (
-							<View className='flex-1 rounded-lg overflow-hidden justify-end relative'>
-								<Pressable
-									onPress={() => setHideThumbnail(!hideThumbnail)}
-									className='w-full h-full absolute z-10'
-								>
-									<Image
-										source={{ uri: item.zuleThumbnail }}
-										className={`w-full h-full absolute z-10 ${
-											!hideThumbnail ? 'opacity-100' : 'opacity-0'
-										}`}
-									/>
-								</Pressable>
-								<Video
-									source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
-									ref={(ref) => {}} // Store reference
-									// onBuffer={this.onBuffer} // Callback when remote video is buffering
-									// onError={this.videoError} // Callback when video cannot be loaded
-									onEnd={() => setHideThumbnail(!hideThumbnail)}
-									className='h-full'
-									resizeMode='cover'
-									paused={!hideThumbnail}
-								/>
-								<LinearGradient
-									colors={['transparent', '#000000']}
-									className='pt-12 p-3 absolute bottom-0 w-full z-20 flex-row justify-between items-end'
-								>
-									<View>
-										<Text className='text-xl font-black text-white'>
-											{item.title}
-										</Text>
-										<Text className='text-base text-gray-200'>
-											{item.description}
-										</Text>
-									</View>
-									
-								</LinearGradient>
-							</View>
-						);
-					}}
-       </SliderCarousel>
+
+      <SliderCarousel randomZules={LikedZules}>
+        {({ item, index }) => {
+          return <ProfileCarousel item={item} />;
+        }}
+      </SliderCarousel>
     </View>
   );
 };
