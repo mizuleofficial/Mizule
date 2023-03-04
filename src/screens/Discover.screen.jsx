@@ -5,13 +5,18 @@ import {
   Text,
   ScrollView,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import WhatsNewcard from "../components/Discover/WhatsNewcard";
+import CircularNav from "../components/extras/CircularNav.component";
+import SliderCarousel from "../components/extras/Carousel.component";
+import { windowHeight, windowWidth } from "../utils/constants.util";
+import ProfileCarousel from "../components/ProfileCarousel/profileCarousel";
 
-const Discover = () => {
+const Discover = ({ navigation }) => {
   const [query, setQuery] = useState("");
+  const [activeIndex, setActiveIndex] = useState(0);
   const items = [
     {
       title: "Thriller",
@@ -83,12 +88,29 @@ const Discover = () => {
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkp4KGr_kEojkAR-xU4eOJIsZ7u_4orOP8VZfF2EQY&s",
     },
   ];
-  const Zules = [
+  const newZules = [
     {
-      name: "Hello",
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkp4KGr_kEojkAR-xU4eOJIsZ7u_4orOP8VZfF2EQY&s",
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
     },
   ];
+
   return (
     <View className="flex-1 w-full bg-black justify-start items-center p-4 ">
       <View className=" w-[90vw]">
@@ -136,13 +158,9 @@ const Discover = () => {
             </View>
           )}
         </View>
-
-        {/* <WhatsNewcard/> */}
-
-
         <View>
           <View className="flex flex-row pb-3 justify-between items-end">
-            <Text className="text-left text-white text-xl font-semibold pl-1">
+            <Text className="text-left text-white text-xl font-semibold pl-1 pt-2">
               Followed zulist
             </Text>
             <TouchableOpacity>
@@ -157,11 +175,10 @@ const Discover = () => {
               No Tags
             </Text>
           ) : (
-            <View className="flex flex-row justify-start items-start w-full pb-4">
+            <View className="flex flex-row justify-start items-start w-full pb-3">
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                
               >
                 {followedZulists &&
                   followedZulists.map((followedZulist, i) => {
@@ -174,7 +191,6 @@ const Discover = () => {
                             uri: followedZulist.img,
                           }}
                         ></ImageBackground>
-                        
                       </View>
                     );
                   })}
@@ -182,9 +198,30 @@ const Discover = () => {
             </View>
           )}
         </View>
-       
+        <View>
+          <Text className="text-left text-white text-xl font-semibold pl-1 py-3">
+            What's New ? 😍
+          </Text>
+          <WhatsNewcard items={newZules} />
+        </View>
+        <View>
+          <Text className="text-left text-white text-xl font-semibold pl-1 py-2">
+            Categories
+          </Text>
+          <SliderCarousel
+            items={newZules}
+            setActiveIndex={setActiveIndex}
+            layout="default"
+            itemWidth={400}
+            sliderWidth={windowWidth}
+          >
+            {({ item, index }) => {
+              return <ProfileCarousel item={item} />;
+            }}
+          </SliderCarousel>
+        </View>
       </View>
-      
+      <CircularNav navigation={navigation} />
     </View>
   );
 };

@@ -80,11 +80,11 @@ const Zules = ({ navigation }) => {
 					</GestureRecognizer>
 				)}
 			</SliderCarousel>
-			<WatchZule
+			{/* <WatchZule
 				zule={randomZules[activeIndex]}
 				isWatchZuleDetailsOpen={isWatchZuleDetailsOpen}
 				setIsWatchZuleDetailsOpen={setIsWatchZuleDetailsOpen}
-			/>
+			/> */}
 			<CircularNav navigation={navigation} />
 		</View>
 	);
