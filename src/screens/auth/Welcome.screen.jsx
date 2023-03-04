@@ -29,7 +29,7 @@ const WelcomeScreen = ({ navigation }) => {
 			const { user } = await GoogleSignin.signIn();
 			await loginWithGoogle(user).then((res) => dispatch(createUser(res.data)));
 		} catch (error) {
-			console.log('🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error);
+			('🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error);
 			// if (error.code === statusCodes.SIGN_IN_CANCELLED) {
 			// 	return;
 			// } else if (error.code === statusCodes.IN_PROGRESS) {

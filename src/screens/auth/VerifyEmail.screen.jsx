@@ -14,7 +14,6 @@ const VerifyEmail = ({ route, navigation }) => {
 	useEffect(() => {
 		Linking.addEventListener('url', async (url) => {
 			setLoading(true);
-			console.log(params);
 			await signup(params).then((res) => {
 				setLoading(false);
 				dispatch(createUser(res.data));

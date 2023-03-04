@@ -14,15 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "611763272117-fp8lva8ukc7m9k929it4q3np1smsf333.apps.googleusercontent.com",
+          "client_id": "611763272117-9fcqm21lebrrumi2s2l0vkfq0sit4pqc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mizule",
-            "certificate_hash": "7d66601aa3705b7c313a756038157f7bd8f56828"
+            "certificate_hash": "92598076c5de5d4a934f1c9c6006f8b535eb6531"
           }
         },
         {
-          "client_id": "611763272117-m7ku2jcigqn2b6vgabhn7hja64l6cu0c.apps.googleusercontent.com",
+          "client_id": "611763272117-p2149tn0hu0u142bgjtq18qct2md5bj6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
