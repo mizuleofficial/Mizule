@@ -11,6 +11,7 @@ const WatchZule = ({
 	isWatchZuleDetailsOpen,
 	setIsWatchZuleDetailsOpen
 }) => {
+	console.log(zule);
 	// const [bgColor, setbgColor] = useState('#00000000');
 	// const fetchBgColors = async () => {
 	// 	let colors = await colorPicker(zule.zuleThumbnail);
@@ -43,7 +44,7 @@ const WatchZule = ({
 						<Text>{zule.title}</Text>
 						<View style={{ flexDirection: 'row' }}>
 							{zule.category?.map((category, index) => (
-								<Text>
+								<Text key={index}>
 									{category}
 									{zule.category.length - 1 !== index && ' • '}
 								</Text>
