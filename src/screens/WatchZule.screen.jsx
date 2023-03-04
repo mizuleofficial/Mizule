@@ -12,7 +12,6 @@ const WatchZule = async () => {
 			key: 'unique_key'
 		}
 	);
-	console.log(result.dominant);
 	return (
 		<View className='flex-1'>
 			<ImageBackground
