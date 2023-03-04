@@ -1,21 +1,17 @@
-import {
-	View,
-	Pressable,
-	Animated,
-	ScrollView,
-	Image,
-	Text
-} from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import { View, Animated, Image, Pressable } from 'react-native';
+import React, { useEffect, useRef } from 'react';
 import Video from 'react-native-video';
 import LinearGradient from 'react-native-linear-gradient';
 
 import IndividualZuleInfo from './IndividualZuleInfo.component';
 
-const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
+const IndividualZule = ({
+	zule,
+	hideThumbnail,
+	setHideThumbnail,
+	currentlyPlayingTeaser
+}) => {
 	const opacityAnimation = useRef(new Animated.Value(1)).current;
-	const scrollA = useRef(new Animated.Value(0)).current;
-	const [scrollY, setScrollY] = useState(0);
 	useEffect(() => {
 		Animated.timing(opacityAnimation, {
 			toValue: hideThumbnail ? 0 : 1,
@@ -30,7 +26,7 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 		});
 	}, [hideThumbnail]);
 
-	if (!item) return;
+	if (!zule) return;
 
 	return (
 		<View className='flex-1'>
@@ -48,26 +44,29 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 					className='w-full h-full'
 					onPress={() => setHideThumbnail(!hideThumbnail)}
 				>
-					<Animated.Image
-						source={{ uri: item.zuleThumbnail }}
-						className={`w-full h-full transition-opacity ${
-							!hideThumbnail ? 'opacity-100' : 'opacity-0'
-						}`}
-						style={{ opacity: opacityAnimation }}
+					{hideThumbnail && (
+						<Image
+							source={{ uri: zule.zuleThumbnail }}
+							className={`w-full h-full transition-opacity`}
+						/>
+					)}
+					<Video
+						source={{
+							uri: currentlyPlayingTeaser
+								? currentlyPlayingTeaser
+								: zule.zuleTeaser
+						}} // Can be a URL or a local file.
+						// ref={(ref) => {}} // Store reference
+						// onBuffer={this.onBuffer} // Callback when remote video is buffering
+						// onError={this.videoError} // Callback when video cannot be loaded
+						onEnd={() => setHideThumbnail(false)}
+						className='h-full w-full'
+						resizeMode='cover'
+						paused={hideThumbnail}
 					/>
 				</Pressable>
-				<Video
-					source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
-					ref={(ref) => {}} // Store reference
-					// onBuffer={this.onBuffer} // Callback when remote video is buffering
-					// onError={this.videoError} // Callback when video cannot be loaded
-					onEnd={() => setHideThumbnail(!hideThumbnail)}
-					className='h-full w-full'
-					resizeMode='cover'
-					paused={hideThumbnail}
-				/>
 			</View>
-			<IndividualZuleInfo zule={item} />
+			<IndividualZuleInfo zule={zule} />
 		</View>
 	);
 };

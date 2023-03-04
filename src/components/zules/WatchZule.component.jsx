@@ -11,7 +11,6 @@ const WatchZule = ({
 	isWatchZuleDetailsOpen,
 	setIsWatchZuleDetailsOpen
 }) => {
-	console.log(zule);
 	// const [bgColor, setbgColor] = useState('#00000000');
 	// const fetchBgColors = async () => {
 	// 	let colors = await colorPicker(zule.zuleThumbnail);
