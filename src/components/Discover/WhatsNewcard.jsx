@@ -1,72 +1,35 @@
-import { View, Text,ScrollView,ImageBackground, Image } from 'react-native'
-import React from 'react'
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import React from "react";
+import { windowHeight, windowWidth } from "../../utils/constants.util";
 
-const WhatsNewcard = () => {
-    const zules = [
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-        {
-          name: "Movie",
-          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb-CJiAmEn-g4yYPB_g92z2Ug5DZTiyTeKEKbhkT7bj7SA0R1YwOBU5l7VfM8pKUBE3Hg&usqp=CAU",
-        },
-      ];
+const WhatsNewcard = ({ items }) => {
   return (
-    <View>
-     <View className="flex flex-row pb-3 justify-between items-center">
-     <Text className="text-left text-white text-xl font-semibold pl-1">Whats' New</Text>
-     {/* {zules && zules.length > 10 && (
-                <View className="">
-                  <Text className="text-white">view All</Text>
-                </View>
-              )} */}
-     </View>
-        {/* <Text className="text-white ">{JSON.stringify(zules)}</Text> */}
-        {zules && zules.length < 0 ? (
-          <Text className="flex justify-center items-center text-white">
-            No Tags
-          </Text>
-        ) : (
-          <View className="flex flex-row justify-start items-start w-full">
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              {zules &&
-                zules.map((zule, i) => {
-                  if (i >= 10) return;
-                  return (
-                    <View className="flex justify-center items-center mx-2 w-24 h-28 bg-slate-400">
-                    </View>
-                  ); 
-                })}
-            
-            </ScrollView>
-          </View>
-        )}
-      </View>
-  )
-}
+    <View className="flex flex-row justify-start items-start w-full pb-4">
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        {items &&
+          items.map((item, i) => {
+            if (i >= 10) return;
+            return (
+              <View
+                className=" bg-neutral-800 mx-2 rounded-xl"
+                style={{ width: windowWidth / 3, height: windowHeight / 6 }}
+              >
+                <Image
+                  className="rounded-t-xl"
+                  style={{ width: windowWidth / 3, height: windowHeight / 9 }}
+                  source={{
+                    uri: item.url,
+                  }}
+                />
+                <Text className="text-zinc-300 text-base font-medium text-center pt-2">
+                  {item.title}
+                </Text>
+              </View>
+            );
+          })}
+      </ScrollView>
+    </View>
+  );
+};
 
-export default WhatsNewcard
+export default WhatsNewcard;
