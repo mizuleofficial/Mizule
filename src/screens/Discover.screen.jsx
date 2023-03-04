@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import WhatsNewcard from "../components/Discover/WhatsNewcard";
+import CircularNav from '../components/extras/CircularNav.component';
 
-const Discover = () => {
+const Discover = ({navigation}) => {
   const [query, setQuery] = useState("");
   const items = [
     {
@@ -89,6 +90,8 @@ const Discover = () => {
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkp4KGr_kEojkAR-xU4eOJIsZ7u_4orOP8VZfF2EQY&s",
     },
   ];
+
+  
   return (
     <View className="flex-1 w-full bg-black justify-start items-center p-4 ">
       <View className=" w-[90vw]">
@@ -184,7 +187,7 @@ const Discover = () => {
         </View>
        
       </View>
-      
+      <CircularNav navigation={navigation} />
     </View>
   );
 };
