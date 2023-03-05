@@ -1,5 +1,6 @@
 import { View, TouchableOpacity, Image, Text } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import LikeZule from './LikeZule.component';
 
 const IndividualZuleInfo = ({ zule, user, activeIndex }) => {
@@ -12,7 +13,24 @@ const IndividualZuleInfo = ({ zule, user, activeIndex }) => {
 			className='w-full h-32 absolute bottom-0 px-3 justify-end'
 		>
 			<View>
-				<Text className='font-bold text-white text-lg'>{zule.title}</Text>
+				<View className='flex-row'>
+					<Text className='font-bold text-white text-lg'>{zule.title}</Text>
+					<LikeZule zule={zule} user={user} activeIndex={activeIndex} />
+				</View>
+				<View className='flex-row items-center'>
+					<Image
+						source={{
+							uri: zule.zuleSpot.icon
+						}}
+						className='w-8 h-8 rounded'
+					/>
+					<View>
+						<Text className='text-white font-semibold'>
+							{zule.zuleSpot.title}
+						</Text>
+						<Text className='text-[#1c9cfd] text-xs'>Follow</Text>
+					</View>
+				</View>
 				<View style={{ flexDirection: 'row' }}>
 					{zule.category?.map((category, index) => (
 						<Text key={index}>
@@ -24,28 +42,16 @@ const IndividualZuleInfo = ({ zule, user, activeIndex }) => {
 				<View className='flex-row gap-2'>
 					<Text>{zule.CBFC_rating}</Text>
 					<Text>{new Date(zule.createdAt).getFullYear()}</Text>
+					<View className='items-center flex-row justify-center'>
+						<Image
+							source={{
+								uri: 'https://img.icons8.com/external-basicons-solid-edtgraphics/50/ffffff/external-eye-ui-edtim-solid-edtim.png'
+							}}
+							className='w-4 h-4 ml-[2px]'
+						/>
+						<Text>{zule.views.teaser.length}</Text>
+					</View>
 				</View>
-			</View>
-			<View className='flex-row pt-1 gap-1 items-center'>
-				<View className='items-center'>
-					<Image
-						source={{
-							uri: 'https://img.icons8.com/external-basicons-solid-edtgraphics/50/ffffff/external-eye-ui-edtim-solid-edtim.png'
-						}}
-						className='w-8 h-8'
-					/>
-					<Text className='-translate-y-1'>{zule.views.teaser}</Text>
-				</View>
-				<LikeZule zule={zule} user={user} activeIndex={activeIndex} />
-				<TouchableOpacity className='items-center'>
-					<Image
-						source={{
-							uri: 'https://img.icons8.com/fluency-systems-filled/48/ffffff/filled-chat.png'
-						}}
-						className='w-7 h-7'
-					/>
-					<Text className='-translate-y-1'>{zule.reviews.comments.length}</Text>
-				</TouchableOpacity>
 			</View>
 			<View className='items-center justify-center'>
 				<Image

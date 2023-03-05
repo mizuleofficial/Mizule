@@ -7,7 +7,7 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { loginWithGoogle } from '../../axios/auth.axios';
-import { createUser } from '../../redux/reducers/user.slice';
+import { createUser } from '../../redux/reducers/users/user.slice';
 
 const WelcomeScreen = ({ navigation }) => {
 	const [user, setUser] = useState({});

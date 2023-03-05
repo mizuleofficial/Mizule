@@ -1,14 +1,14 @@
 import { View, Animated, Image, Pressable } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import Video from 'react-native-video';
 import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { cacheContent, getCachedContent } from '../../utils/cacheContent.util';
 import IndividualZuleInfo from './IndividualZuleInfo.component';
 import { fetchZules } from '../../redux/reducers/zules/zules.slice';
+import VideoPlayer from './VideoPlayer.component';
 
-const IndividualZule = ({ zule, activeIndex, fetchRandomZules }) => {
+const IndividualZule = ({ zule, activeIndex, fetchRandomZules, index }) => {
 	const opacityAnimation = useRef(new Animated.Value(1)).current;
 	const [hideThumbnail, setHideThumbnail] = useState(false);
 	const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
@@ -38,9 +38,10 @@ const IndividualZule = ({ zule, activeIndex, fetchRandomZules }) => {
 		// 	getCachedContent(randomZules[activeIndex].zuleThumbnail).then((res) =>
 		// 		setCurrentlyZuleThumbnail(res)
 		// 	);
-		setTimeout(() => {
-			setHideThumbnail(true);
-		}, 3000);
+		index === activeIndex &&
+			setTimeout(() => {
+				setHideThumbnail(true);
+			}, 3000);
 	}, [activeIndex]);
 	useEffect(() => {
 		Animated.timing(opacityAnimation, {
@@ -82,19 +83,12 @@ const IndividualZule = ({ zule, activeIndex, fetchRandomZules }) => {
 							className={`w-full h-full transition-opacity`}
 						/>
 					)}
-					<Video
-						source={{
-							uri: currentlyPlayingTeaser
-								? currentlyPlayingTeaser
-								: zule.zuleTeaser
-						}} // Can be a URL or a local file.
-						// ref={(ref) => {}} // Store reference
-						// onBuffer={this.onBuffer} // Callback when remote video is buffering
-						// onError={this.videoError} // Callback when video cannot be loaded
-						onEnd={() => setHideThumbnail(false)}
-						className='h-full w-full'
-						resizeMode='cover'
-						paused={!hideThumbnail}
+					<VideoPlayer
+						currentlyPlayingTeaser={currentlyPlayingTeaser}
+						zule={zule}
+						hideThumbnail={hideThumbnail}
+						setHideThumbnail={setHideThumbnail}
+						paused={!(index === activeIndex && hideThumbnail)}
 					/>
 				</Pressable>
 			</View>

@@ -13,7 +13,7 @@ import { cacheContent } from '../utils/cacheContent.util';
 import { fetchZules } from '../redux/reducers/zules/zules.slice';
 
 const Zules = ({ navigation }) => {
-	const [isWatchZuleDetailsOpen, setIsWatchZuleDetailsOpen] = useState(false);
+	const [isWatchZuleOpen, setIsWatchZuleOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const dispatch = useDispatch();
 
@@ -63,7 +63,7 @@ const Zules = ({ navigation }) => {
 			>
 				{({ item, index }) => (
 					<GestureRecognizer
-						onSwipeUp={() => setIsWatchZuleDetailsOpen(true)}
+						onSwipeUp={() => setIsWatchZuleOpen(true)}
 						className='flex-1'
 					>
 						<IndividualZule
@@ -81,8 +81,8 @@ const Zules = ({ navigation }) => {
 			</SliderCarousel>
 			<WatchZule
 				zule={zules[activeIndex]}
-				isWatchZuleDetailsOpen={isWatchZuleDetailsOpen}
-				setIsWatchZuleDetailsOpen={setIsWatchZuleDetailsOpen}
+				isWatchZuleOpen={isWatchZuleOpen}
+				setIsWatchZuleOpen={setIsWatchZuleOpen}
 			/>
 			<CircularNav navigation={navigation} />
 		</View>
