@@ -27,7 +27,6 @@ const Profile = ({ navigation }) => {
     },
     {
       title: "Phone",
-
       url: "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
     },
 
@@ -197,12 +196,39 @@ const Profile = ({ navigation }) => {
           }}
         </SliderCarousel>
       )}
-      {/* <BottomSheet ref={ref => panelRef.current = ref} isOpen>
-          <Text style={{paddingVertical: 20}}>
-            Some random content
-          </Text>
-        </BottomSheet> */}
-      <CircularNav navigation={navigation} />
+      <BottomSheet
+        ref={(ref) => (panelRef.current = ref)}
+        sliderMinHeight={0}
+        animationDuration={300}
+        wrapperStyle={{ backgroundColor: "#FEFBF6" }}
+      >
+        <View className="flex justify-center items-center relative">
+          <TouchableOpacity className="flex justify-center items-center">
+            <Text className="text-black font-semibold text-lg px-5 pb-3">
+              Language preference
+            </Text>
+            <View className="flex  bg-neutral-800 w-60 px-5 h-[0.7px]"></View>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex justify-center items-center">
+            <Text className="text-black font-semibold text-lg px-5 pb-3 pt-3">
+              Multiple Account
+            </Text>
+            <View className="flex  bg-neutral-800 w-60 px-5 h-[0.8px]"></View>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex justify-center items-center">
+            <Text className="text-black font-semibold text-lg px-5 pb-3 pt-3">
+              Parental control
+            </Text>
+            <View className="flex  bg-neutral-800 w-60 px-5 h-[0.8px]"></View>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex justify-center items-center">
+            <Text className="text-black font-semibold text-lg px-5 pb-4 pt-3">
+              Sign Out
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </BottomSheet>
+      {/* <CircularNav navigation={navigation} /> */}
     </View>
   );
 };

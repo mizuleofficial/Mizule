@@ -3,6 +3,7 @@ import React from "react";
 import Video from "react-native-video";
 import Modal from "react-native-modal";
 import { windowHeight, windowWidth } from "../../utils/constants.util";
+import WhatsNewcard from "../Discover/WhatsNewcard";
 
 // import { colorPicker } from '../../utils/colorPicker.util';
 
@@ -18,7 +19,28 @@ const WatchZule = ({
   // };
   // fetchBgColors();
   if (!zule) return;
-
+  const newZules = [
+    {
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://images.unsplash.com/photo-1633205719979-e47958ff6d93?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
+    },
+    {
+      title: "Coral Reef",
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png",
+    },
+  ];
   return (
     <Modal
       isVisible={isWatchZuleDetailsOpen}
@@ -28,65 +50,57 @@ const WatchZule = ({
     >
       <View className="flex-1 bg-black">
         <Video
-					source={{ uri: zule.fullZule }}
-					style={{ width: windowWidth, height: windowWidth / (16 / 9) }}
-					resizeMode='contain'
-					muted
-					controls={true}
-				/>
-        <View className="flex-row flex-1 relative justify-start items-end bg-black bg-opacity-10">
-          <View className="flex justify-end items-start absolute p-10">
-            <ScrollView>
-              <View className="flex flex-row justify-between items-center">
-                <Text className="text-3xl font-extrabold pb-1 pr-20">
-                  {zule.title}
+          source={{ uri: zule.fullZule }}
+          style={{ width: windowWidth, height: windowWidth / (16 / 9) }}
+          resizeMode="contain"
+          muted
+          controls={true}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View className="flex justify-start items-start p-5">
+            <Text className="text-3xl font-extrabold pb-1 pr-20">
+              {zule.title}
+            </Text>
+
+            <View style={{ flexDirection: "row" }}>
+              {zule.category?.map((category, index) => (
+                <Text className="text-base text-neutral-400" key={index}>
+                  {category}
+                  {zule.category.length - 1 !== index && " • "}
                 </Text>
-                <View className="flex justify-center items-center pb-1">
-                  {false ? (
-                    <Image
-                      source={{
-                        uri: "https://img.icons8.com/ios/50/ffffff/video-playlist.png",
-                      }}
-                      className="w-9 h-9"
-                    />
-                  ) : (
-                    <Image
-                      source={{
-                        uri: "https://img.icons8.com/ios-filled/50/ffffff/video-playlist.png",
-                      }}
-                      className="w-8 h-8"
-                    />
-                  )}
-                </View>
-              </View>
-              <View style={{ flexDirection: "row" }}>
-                {zule.category?.map((category, index) => (
-                  <Text className="text-base text-neutral-400" key={index}>
-                    {category}
-                    {zule.category.length - 1 !== index && " • "}
-                  </Text>
-                ))}
-              </View>
-              <Text className="text-base text-neutral-400">
-                {zule.CBFC_rating}
+              ))}
+            </View>
+            <Text className="text-base text-neutral-400">
+              {zule.CBFC_rating}
+            </Text>
+            <Text className="text-base text-neutral-400">
+              {new Date(zule.created_at).getFullYear()}
+            </Text>
+            <View className="flex justify-center items-start ">
+              <Text className=" text-neutral-400 text-2xl font-bold">
+                Decription
               </Text>
-              <Text className="text-base text-neutral-400">
-                {new Date(zule.created_at).getFullYear()}
+              <Text className="mt-3 text-justify w-80 leading-4 text-xs">
+                {zule.description} lorem fgiuagch byifgecbdu iugefhbvudjb
+                ughdvusj uigevhiudgxb vdux jkvbveugdcakbj lorem fgiuagch
+                byifgecbdu iugefhbvudjb ughdvusj uigevhiudgxb vduxj
+                kvbveugdcakbj
               </Text>
-              <View className="flex justify-center items-start ">
-                <Text className=" text-neutral-400 text-2xl font-bold">
-                  Decription
-                </Text>
-                <Text className="mt-3 text-justify w-72">
-                  {zule.description} lorem fgiuagch byifgecbdu iugefhbvudjb
-                  ughdvusj uigevhiudgxb vdux jkvbveugdcakbj lorem fgiuagch
-                  byifgecbdu iugefhbvudjb ughdvusj uigevhiudgxb vduxj
-                  kvbveugdcakbj
-                </Text>
-              </View>
-            </ScrollView>
+            </View>
+            <View>
+              <Text className="text-left text-white text-xl font-semibold pl-1 py-3">
+                What's New ? 😍
+              </Text>
+              <WhatsNewcard items={newZules} />
+            </View>
+            <View>
+              <Text className="text-left text-white text-xl font-semibold pl-1 pb-3">
+                Watch Your Favorites zules
+              </Text>
+              <WhatsNewcard items={newZules} />
+            </View>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );
