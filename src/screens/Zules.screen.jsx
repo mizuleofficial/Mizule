@@ -4,19 +4,18 @@ import { useSelector } from 'react-redux';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
 import { getRandomZules } from '../axios/zule.axios';
-import { base_url } from '../utils/constants.util';
+import { base_url, windowWidth } from '../utils/constants.util';
 import CircularNav from '../components/extras/CircularNav.component';
 import SliderCarousel from '../components/extras/Carousel.component';
 import IndividualZule from '../components/zules/IndividualZule.component';
 import WatchZule from '../components/zules/WatchZule.component';
-import { cacheVideo, getCachedVideo } from '../utils/cacheVideo.util';
+import { cacheContent, getCachedContent } from '../utils/cacheContent.util';
 
 const Zules = ({ navigation }) => {
 	const [isWatchZuleDetailsOpen, setIsWatchZuleDetailsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [hideThumbnail, setHideThumbnail] = useState(false);
 	const [randomZules, setRandomZules] = useState([]);
-	const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
+
 
 	const { user } = useSelector((state) => ({ ...state }));
 
@@ -30,11 +29,16 @@ const Zules = ({ navigation }) => {
 				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-thumbnail.jpg`;
 				return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
 			});
-			cacheVideo(zules[0].zuleTeaser, user.token);
-			cacheVideo(zules[1].zuleTeaser, user.token);
-			getCachedVideo(zules[0].zuleTeaser).then((res) =>
-				setCurrentlyPlayingTeaser(res)
-			);
+			// cacheContent(zules[0].zuleTeaser, user.token);
+			cacheContent(zules[0].zuleThumbnail, user.token);
+			// cacheContent(zules[1].zuleTeaser, user.token);
+			cacheContent(zules[1].zuleThumbnail, user.token);
+			// getCachedContent(zules[0].zuleTeaser).then((res) => {
+			// 	setCurrentlyPlayingTeaser(res);
+			// });
+			// getCachedContent(zules[0].zuleTeaser).then((res) => {
+			// 	setCurrentlyZuleThumbnail(res);
+			// });
 			setRandomZules([...randomZules, ...zules]);
 		});
 	};
@@ -43,27 +47,15 @@ const Zules = ({ navigation }) => {
 		fetchRandomZules(0);
 	}, []);
 
-	useEffect(() => {
-		if (activeIndex + 2 == randomZules.length - 1) {
-			fetchRandomZules(randomZules.length);
-		}
-		if (activeIndex <= randomZules.length - 3) {
-			cacheVideo(randomZules[activeIndex + 1].zuleTeaser, user.token);
-			cacheVideo(randomZules[activeIndex + 2].zuleTeaser, user.token);
-		}
-		randomZules[activeIndex] &&
-			getCachedVideo(randomZules[activeIndex].zuleTeaser).then((res) =>
-				setCurrentlyPlayingTeaser(res)
-			);
-		setHideThumbnail(false);
-		setTimeout(() => {
-			setHideThumbnail(true);
-		}, 3000);
-	}, [activeIndex]);
-
 	return (
 		<View className='bg-black flex-1'>
-			<SliderCarousel randomZules={randomZules} setActiveIndex={setActiveIndex}>
+			<SliderCarousel
+				items={randomZules}
+				setActiveIndex={setActiveIndex}
+				layout='default'
+				itemWidth={windowWidth}
+				sliderWidth={windowWidth}
+			>
 				{({ item, index }) => (
 					<GestureRecognizer
 						onSwipeUp={() => setIsWatchZuleDetailsOpen(true)}
@@ -72,19 +64,21 @@ const Zules = ({ navigation }) => {
 						<IndividualZule
 							zule={item}
 							index={index}
-							hideThumbnail={hideThumbnail}
-							setHideThumbnail={setHideThumbnail}
-							setIsWatchZuleDetailsOpen={setIsWatchZuleDetailsOpen}
-							currentlyPlayingTeaser={currentlyPlayingTeaser}
+							// currentlyPlayingTeaser={currentlyPlayingTeaser}
+							// setCurrentlyPlayingTeaser={setCurrentlyPlayingTeaser}
+							// currentlyZuleThumbnail={currentlyZuleThumbnail}
+							// setCurrentlyZuleThumbnail={setCurrentlyZuleThumbnail}
+							activeIndex={activeIndex}
+							randomZules={randomZules}
 						/>
 					</GestureRecognizer>
 				)}
 			</SliderCarousel>
-			{/* <WatchZule
+			<WatchZule
 				zule={randomZules[activeIndex]}
 				isWatchZuleDetailsOpen={isWatchZuleDetailsOpen}
 				setIsWatchZuleDetailsOpen={setIsWatchZuleDetailsOpen}
-			/> */}
+			/>
 			<CircularNav navigation={navigation} />
 		</View>
 	);

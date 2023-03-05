@@ -1,14 +1,14 @@
 const RNFS = require('react-native-fs');
 
-export const cacheVideo = (videoUrl,token) => {
-    let filename = videoUrl.substring(videoUrl.lastIndexOf("/") + 1, videoUrl.length);
+export const cacheContent = (URL, token) => {
+    let filename = URL.substring(URL.lastIndexOf("/") + 1, URL.length);
     let path_name = RNFS.DocumentDirectoryPath + "/" + filename;
     RNFS.exists(path_name).then(exists => {
         if (exists) {
-            console.log("Video already cached.")
+            console.log("Content already cached.")
         } else {
             RNFS.downloadFile({
-                fromUrl: videoUrl,
+                fromUrl: URL,
                 toFile: path_name.replace(/%20/g, "_"),
                 background: true
                 // , headers: { 'Authorization': `Bearer ${token}` }
@@ -23,8 +23,8 @@ export const cacheVideo = (videoUrl,token) => {
     });
 }
 
-export const getCachedVideo = (videoURL) => {
-    const fileName = videoURL.substring(videoURL.lastIndexOf("/") + 1, videoURL.length);
+export const getCachedContent = (URL) => {
+    const fileName = URL.substring(URL.lastIndexOf("/") + 1, URL.length);
     return new Promise((resolve, reject) => {
         RNFS.readDir(RNFS.DocumentDirectoryPath)
             .then(result => {
@@ -35,7 +35,7 @@ export const getCachedVideo = (videoURL) => {
                 });
             })
             .catch(err => {
-                reject(videoURL);
+                reject(URL);
             });
     });
 }
