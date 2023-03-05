@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import FormInput from '../../components/auth/FormInput.component';
 import { emailSignInValidationSchema } from '../../utils/validation.utils';
 import { login } from '../../axios/auth.axios';
-import { createUser } from '../../redux/reducers/user/user.slice';
+import { createUser } from '../../redux/reducers/user.slice';
 
 const SignIn = ({ navigation, route }) => {
 	const dispatch = useDispatch();

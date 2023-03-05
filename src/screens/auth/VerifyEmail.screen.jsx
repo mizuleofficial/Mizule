@@ -4,7 +4,7 @@ import { openInbox } from 'react-native-email-link';
 import { useDispatch } from 'react-redux';
 
 import { signup } from '../../axios/auth.axios';
-import { createUser } from '../../redux/reducers/user/user.slice';
+import { createUser } from '../../redux/reducers/user.slice';
 
 const VerifyEmail = ({ route, navigation }) => {
 	const { params } = route;

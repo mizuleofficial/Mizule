@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
 import { getRandomZules } from '../axios/zule.axios';
@@ -9,19 +9,19 @@ import CircularNav from '../components/extras/CircularNav.component';
 import SliderCarousel from '../components/extras/Carousel.component';
 import IndividualZule from '../components/zules/IndividualZule.component';
 import WatchZule from '../components/zules/WatchZule.component';
-import { cacheContent, getCachedContent } from '../utils/cacheContent.util';
+import { cacheContent } from '../utils/cacheContent.util';
+import { fetchZules } from '../redux/reducers/zules/zules.slice';
 
 const Zules = ({ navigation }) => {
 	const [isWatchZuleDetailsOpen, setIsWatchZuleDetailsOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
-	const [randomZules, setRandomZules] = useState([]);
+	const dispatch = useDispatch();
 
-
-	const { user } = useSelector((state) => ({ ...state }));
+	const { user, zules } = useSelector((state) => ({ ...state }));
 
 	const fetchRandomZules = async (zuleOffset) => {
 		// , user && user.token
-		getRandomZules(zuleOffset).then((res) => {
+		return await getRandomZules(zuleOffset).then(async (res) => {
 			if (!res.data.length) return;
 			const zules = res.data.map((zule) => {
 				const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-teaser.mp4`;
@@ -29,32 +29,37 @@ const Zules = ({ navigation }) => {
 				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-thumbnail.jpg`;
 				return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
 			});
-			// cacheContent(zules[0].zuleTeaser, user.token);
-			cacheContent(zules[0].zuleThumbnail, user.token);
-			// cacheContent(zules[1].zuleTeaser, user.token);
-			cacheContent(zules[1].zuleThumbnail, user.token);
+			return zules;
+		});
+	};
+
+	useEffect(() => {
+		fetchRandomZules(0).then((zules) => {
+			cacheContent(zules[0].zuleTeaser, user.token);
+			// cacheContent(zules[0].zuleThumbnail, user.token);
+			cacheContent(zules[1].zuleTeaser, user.token);
+			// cacheContent(zules[1].zuleThumbnail, user.token);
 			// getCachedContent(zules[0].zuleTeaser).then((res) => {
 			// 	setCurrentlyPlayingTeaser(res);
 			// });
 			// getCachedContent(zules[0].zuleTeaser).then((res) => {
 			// 	setCurrentlyZuleThumbnail(res);
 			// });
-			setRandomZules([...randomZules, ...zules]);
+			dispatch(fetchZules(zules));
 		});
-	};
-
-	useEffect(() => {
-		fetchRandomZules(0);
 	}, []);
+
+	if (!zules) return;
 
 	return (
 		<View className='bg-black flex-1'>
 			<SliderCarousel
-				items={randomZules}
+				items={zules}
 				setActiveIndex={setActiveIndex}
 				layout='default'
 				itemWidth={windowWidth}
 				sliderWidth={windowWidth}
+				useScrollView={false}
 			>
 				{({ item, index }) => (
 					<GestureRecognizer
@@ -69,13 +74,13 @@ const Zules = ({ navigation }) => {
 							// currentlyZuleThumbnail={currentlyZuleThumbnail}
 							// setCurrentlyZuleThumbnail={setCurrentlyZuleThumbnail}
 							activeIndex={activeIndex}
-							randomZules={randomZules}
+							fetchRandomZules={fetchRandomZules}
 						/>
 					</GestureRecognizer>
 				)}
 			</SliderCarousel>
 			<WatchZule
-				zule={randomZules[activeIndex]}
+				zule={zules[activeIndex]}
 				isWatchZuleDetailsOpen={isWatchZuleDetailsOpen}
 				setIsWatchZuleDetailsOpen={setIsWatchZuleDetailsOpen}
 			/>

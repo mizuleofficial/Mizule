@@ -9,6 +9,7 @@ const SliderCarousel = ({
   layout,
   sliderWidth,
   itemWidth,
+  useScrollView
 }) => {
   function scrollInterpolator4(index, carouselProps) {
     const range = [1, 0, -1];
@@ -70,6 +71,7 @@ const SliderCarousel = ({
       shouldOptimizeUpdates
       removeClippedSubviews={true}
       layout={layout}
+      useScrollView={useScrollView}
     />
   );
 };

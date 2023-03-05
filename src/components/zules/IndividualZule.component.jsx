@@ -1,43 +1,43 @@
 import { View, Animated, Image, Pressable } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Video from 'react-native-video';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { cacheContent, getCachedContent } from '../../utils/cacheContent.util';
 import IndividualZuleInfo from './IndividualZuleInfo.component';
+import { fetchZules } from '../../redux/reducers/zules/zules.slice';
 
-const IndividualZule = ({
-	zule,
-	activeIndex,
-	randomZules
-}) => {
+const IndividualZule = ({ zule, activeIndex, fetchRandomZules }) => {
 	const opacityAnimation = useRef(new Animated.Value(1)).current;
 	const [hideThumbnail, setHideThumbnail] = useState(false);
-const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
-	const [currentlyZuleThumbnail, setCurrentlyZuleThumbnail] = useState('');
+	const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
+	// const [currentlyZuleThumbnail, setCurrentlyZuleThumbnail] = useState('');
+	const dispatch = useDispatch();
 
-	const { user } = useSelector((state) => ({ ...state }));
+	const { user, zules } = useSelector((state) => ({ ...state }));
 
 	useEffect(() => {
 		setHideThumbnail(false);
-		if (activeIndex + 2 == randomZules.length - 1) {
-			fetchRandomZules(randomZules.length);
+		if (activeIndex + 2 == zules.length - 1) {
+			fetchRandomZules(activeIndex + 1).then((zules) =>
+				dispatch(fetchZules(zules))
+			);
 		}
-		if (activeIndex <= randomZules.length - 3) {
-			// cacheContent(randomZules[activeIndex + 1].zuleTeaser, user.token);
-			cacheContent(randomZules[activeIndex + 1].zuleThumbnail, user.token);
-			// cacheContent(randomZules[activeIndex + 2].zuleTeaser, user.token);
-			cacheContent(randomZules[activeIndex + 2].zuleThumbnail, user.token);
+		if (activeIndex <= zules.length - 3) {
+			cacheContent(zules[activeIndex + 1].zuleTeaser, user.token);
+			// cacheContent(zules[activeIndex + 1].zuleThumbnail, user.token);
+			cacheContent(zules[activeIndex + 2].zuleTeaser, user.token);
+			// cacheContent(zules[activeIndex + 2].zuleThumbnail, user.token);
 		}
-		randomZules[activeIndex] &&
-			getCachedContent(randomZules[activeIndex].zuleTeaser).then((res) =>
+		zules[activeIndex] &&
+			getCachedContent(zules[activeIndex].zuleTeaser).then((res) =>
 				setCurrentlyPlayingTeaser(res)
 			);
-		randomZules[activeIndex] &&
-			getCachedContent(randomZules[activeIndex].zuleThumbnail).then((res) =>
-			setCurrentlyZuleThumbnail(res)
-			);
+		// randomZules[activeIndex] &&
+		// 	getCachedContent(randomZules[activeIndex].zuleThumbnail).then((res) =>
+		// 		setCurrentlyZuleThumbnail(res)
+		// 	);
 		setTimeout(() => {
 			setHideThumbnail(true);
 		}, 3000);
@@ -77,9 +77,7 @@ const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
 					{!hideThumbnail && (
 						<Image
 							source={{
-								uri: currentlyZuleThumbnail
-									? currentlyZuleThumbnail
-									: zule.zuleThumbnail
+								uri: zule.zuleThumbnail
 							}}
 							className={`w-full h-full transition-opacity`}
 						/>
@@ -100,7 +98,7 @@ const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
 					/>
 				</Pressable>
 			</View>
-			<IndividualZuleInfo zule={zule} />
+			<IndividualZuleInfo zule={zule} user={user} activeIndex={activeIndex} />
 		</View>
 	);
 };
