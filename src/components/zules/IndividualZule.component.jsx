@@ -1,21 +1,47 @@
-import {
-	View,
-	Pressable,
-	Animated,
-	ScrollView,
-	Image,
-	Text
-} from 'react-native';
+import { View, Animated, Image, Pressable } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import Video from 'react-native-video';
+import { useSelector } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { cacheContent, getCachedContent } from '../../utils/cacheContent.util';
 import IndividualZuleInfo from './IndividualZuleInfo.component';
 
-const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
+const IndividualZule = ({
+	zule,
+	activeIndex,
+	randomZules
+}) => {
 	const opacityAnimation = useRef(new Animated.Value(1)).current;
-	const scrollA = useRef(new Animated.Value(0)).current;
-	const [scrollY, setScrollY] = useState(0);
+	const [hideThumbnail, setHideThumbnail] = useState(false);
+const [currentlyPlayingTeaser, setCurrentlyPlayingTeaser] = useState('');
+	const [currentlyZuleThumbnail, setCurrentlyZuleThumbnail] = useState('');
+
+	const { user } = useSelector((state) => ({ ...state }));
+
+	useEffect(() => {
+		setHideThumbnail(false);
+		if (activeIndex + 2 == randomZules.length - 1) {
+			fetchRandomZules(randomZules.length);
+		}
+		if (activeIndex <= randomZules.length - 3) {
+			// cacheContent(randomZules[activeIndex + 1].zuleTeaser, user.token);
+			cacheContent(randomZules[activeIndex + 1].zuleThumbnail, user.token);
+			// cacheContent(randomZules[activeIndex + 2].zuleTeaser, user.token);
+			cacheContent(randomZules[activeIndex + 2].zuleThumbnail, user.token);
+		}
+		randomZules[activeIndex] &&
+			getCachedContent(randomZules[activeIndex].zuleTeaser).then((res) =>
+				setCurrentlyPlayingTeaser(res)
+			);
+		randomZules[activeIndex] &&
+			getCachedContent(randomZules[activeIndex].zuleThumbnail).then((res) =>
+			setCurrentlyZuleThumbnail(res)
+			);
+		setTimeout(() => {
+			setHideThumbnail(true);
+		}, 3000);
+	}, [activeIndex]);
 	useEffect(() => {
 		Animated.timing(opacityAnimation, {
 			toValue: hideThumbnail ? 0 : 1,
@@ -30,7 +56,7 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 		});
 	}, [hideThumbnail]);
 
-	if (!item) return;
+	if (!zule) return;
 
 	return (
 		<View className='flex-1'>
@@ -48,26 +74,33 @@ const IndividualZule = ({ item, hideThumbnail, setHideThumbnail }) => {
 					className='w-full h-full'
 					onPress={() => setHideThumbnail(!hideThumbnail)}
 				>
-					<Animated.Image
-						source={{ uri: item.zuleThumbnail }}
-						className={`w-full h-full transition-opacity ${
-							!hideThumbnail ? 'opacity-100' : 'opacity-0'
-						}`}
-						style={{ opacity: opacityAnimation }}
+					{!hideThumbnail && (
+						<Image
+							source={{
+								uri: currentlyZuleThumbnail
+									? currentlyZuleThumbnail
+									: zule.zuleThumbnail
+							}}
+							className={`w-full h-full transition-opacity`}
+						/>
+					)}
+					<Video
+						source={{
+							uri: currentlyPlayingTeaser
+								? currentlyPlayingTeaser
+								: zule.zuleTeaser
+						}} // Can be a URL or a local file.
+						// ref={(ref) => {}} // Store reference
+						// onBuffer={this.onBuffer} // Callback when remote video is buffering
+						// onError={this.videoError} // Callback when video cannot be loaded
+						onEnd={() => setHideThumbnail(false)}
+						className='h-full w-full'
+						resizeMode='cover'
+						paused={!hideThumbnail}
 					/>
 				</Pressable>
-				<Video
-					source={{ uri: item.zuleTeaser }} // Can be a URL or a local file.
-					ref={(ref) => {}} // Store reference
-					// onBuffer={this.onBuffer} // Callback when remote video is buffering
-					// onError={this.videoError} // Callback when video cannot be loaded
-					onEnd={() => setHideThumbnail(!hideThumbnail)}
-					className='h-full w-full'
-					resizeMode='cover'
-					paused={hideThumbnail}
-				/>
 			</View>
-			<IndividualZuleInfo zule={item} />
+			<IndividualZuleInfo zule={zule} />
 		</View>
 	);
 };
