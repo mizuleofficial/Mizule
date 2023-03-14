@@ -1,12 +1,12 @@
 import { View, Animated, Image, Pressable } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 
 import { cacheContent, getCachedContent } from '../../utils/cacheContent.util';
 import IndividualZuleInfo from './IndividualZuleInfo.component';
 import { fetchZules } from '../../redux/reducers/zules/zules.slice';
 import VideoPlayer from './VideoPlayer.component';
+import Header from './Header.component';
 
 const IndividualZule = ({ zule, activeIndex, fetchRandomZules, index }) => {
 	const opacityAnimation = useRef(new Animated.Value(1)).current;
@@ -61,15 +61,7 @@ const IndividualZule = ({ zule, activeIndex, fetchRandomZules, index }) => {
 
 	return (
 		<View className='flex-1'>
-			<LinearGradient
-				colors={['#000000', '#000000bd', '#0000008d', 'transparent']}
-				locations={[0, 0.5, 0.7, 1]}
-				start={{ x: 0, y: 0 }}
-				end={{ x: 0, y: 1 }}
-				className='bg-opacity-40 absolute top-0 left-0 z-10 w-full p-3 pb-12 flex-1'
-			>
-				<Image source={require('../../assets/logo.png')} className='w-36 h-8' />
-			</LinearGradient>
+			<Header />
 			<View className='h-screen w-full relative'>
 				<Pressable
 					className='w-full h-full'

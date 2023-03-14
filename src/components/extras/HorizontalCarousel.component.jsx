@@ -9,14 +9,15 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 const HorizontalCarousel = ({
-	zules,
+	items,
 	title,
 	itemWidth = 0,
 	itemHeight = 0,
 	itemStyle = {},
-	hideTitle = false
+	hideTitle = false,
+	length = 6
 }) => {
-	if (!zules) return;
+	if (!items) return;
 	return (
 		<View className='flex-1 mb-4'>
 			<View className='flex-row justify-between'>
@@ -32,8 +33,8 @@ const HorizontalCarousel = ({
 				showsHorizontalScrollIndicator={false}
 				overScrollMode='never'
 			>
-				{zules.map((zule, i) => {
-					if (i >= 6) return;
+				{items.map((item, i) => {
+					if (i >= length) return;
 					return (
 						<ImageBackground
 							className='bg-neutral-800 mr-3 rounded-lg overflow-hidden justify-end'
@@ -45,7 +46,7 @@ const HorizontalCarousel = ({
 								}
 							]}
 							source={{
-								uri: zule.zuleThumbnail
+								uri: item.zuleThumbnail
 							}}
 							key={i}
 						>
@@ -57,7 +58,7 @@ const HorizontalCarousel = ({
 									end={{ x: 0, y: 0 }}
 									className='pt-3 px-2'
 								>
-									<Text className='font-black'>{zule.title}</Text>
+									<Text className='font-black'>{item.title}</Text>
 								</LinearGradient>
 							)}
 						</ImageBackground>

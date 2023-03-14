@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import GestureRecognizer from 'react-native-swipe-gestures';
@@ -11,10 +11,13 @@ import IndividualZule from '../components/zules/IndividualZule.component';
 import WatchZule from '../components/zules/WatchZule.component';
 import { cacheContent } from '../utils/cacheContent.util';
 import { fetchZules } from '../redux/reducers/zules/zules.slice';
+import Header from '../components/zules/Header.component';
+import LoadingZule from '../components/zules/LoadingZule.component';
 
 const Zules = ({ navigation }) => {
 	const [isWatchZuleOpen, setIsWatchZuleOpen] = useState(false);
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [loading, setLoading] = useState(true);
 	const dispatch = useDispatch();
 
 	const { user, zules } = useSelector((state) => ({ ...state }));
@@ -35,6 +38,7 @@ const Zules = ({ navigation }) => {
 
 	useEffect(() => {
 		fetchRandomZules(0).then((zules) => {
+			setLoading(false);
 			cacheContent(zules[0].zuleTeaser, user.token);
 			// cacheContent(zules[0].zuleThumbnail, user.token);
 			cacheContent(zules[1].zuleTeaser, user.token);
@@ -49,10 +53,11 @@ const Zules = ({ navigation }) => {
 		});
 	}, []);
 
-	if (!zules) return;
+	if (loading) return <LoadingZule />;
 
 	return (
 		<View className='bg-black flex-1'>
+			<Header />
 			<SliderCarousel
 				items={zules}
 				setActiveIndex={setActiveIndex}

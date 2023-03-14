@@ -8,18 +8,20 @@ import {
 } from 'react-native';
 import React, { useState, useRef } from 'react';
 import { windowHeight, windowWidth } from '../utils/constants.util';
-// import Modal from "react-native-modal";
-import SliderCarousel from '../components/extras/Carousel.component';
-import CircularNav from '../components/extras/CircularNav.component';
-import ProfileCarousel from '../components/ProfileCarousel/profileCarousel';
 import BottomSheet from 'react-native-simple-bottom-sheet';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { logoutUser } from '../redux/reducers/users/user.slice';
 
 const Profile = ({ navigation }) => {
 	const [cardType, setCardType] = useState('History');
-	const [activeIndex, setActiveIndex] = useState(0);
 	const panelRef = useRef(null);
 	const [isOpen, setIsOpen] = useState(false);
 	const types = ['History', 'Liked Zules', 'WatchLater', 'Downloads'];
+
+	const { user } = useSelector((state) => ({ ...state }));
+	const dispatch = useDispatch();
+
 	const likedZules = [
 		{
 			title: 'Coral Reef',
@@ -112,23 +114,22 @@ const Profile = ({ navigation }) => {
 					</TouchableOpacity>
 				</View>
 			</View>
-			<Text className='font-medium text-2xl pt-7 pb-1 '>Hello Bhuvana!!😉</Text>
-			<Text className='text-zinc-500'>Have a great day!!!</Text>
+			<Text className='font-medium text-2xl pt-7 pb-1 '>{user.name}</Text>
 			<View className='flex flex-row justify-between items-center pt-6 pb-6'>
 				<ImageBackground
 					className=' rounded-3xl w-20 h-20 overflow-hidden'
 					source={{
-						uri: 'https://cdn.shopify.com/s/files/1/0850/2114/files/tips_to_help_heighten_senses_480x480.png?v=1624399167'
+						uri: user.icon
 					}}
 				></ImageBackground>
-				<View
+				{/* <View
 					className='flex justify-center  bg-slate-100 rounded-xl '
 					style={{ width: windowWidth / 2 }}
 				>
 					<Text className='flex py-2 px-3 text-base font-medium text-center text-black'>
 						Create Your ZuleStudio
 					</Text>
-				</View>
+				</View> */}
 			</View>
 			<View className='pb-6'>
 				<View
@@ -220,7 +221,10 @@ const Profile = ({ navigation }) => {
 						</Text>
 						<View className='flex  bg-neutral-800 w-60 px-5 h-[0.8px]'></View>
 					</TouchableOpacity>
-					<TouchableOpacity className='flex justify-center items-center'>
+					<TouchableOpacity
+						className='flex justify-center items-center'
+						onPress={() => dispatch(logoutUser())}
+					>
 						<Text className='text-black font-semibold text-lg px-5 pb-4 pt-3'>
 							Sign Out
 						</Text>

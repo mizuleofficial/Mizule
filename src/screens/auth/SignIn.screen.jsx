@@ -45,8 +45,8 @@ const SignIn = ({ navigation, route }) => {
 				</Text>
 				<Formik
 					initialValues={{
-						email: 'lohithr.it2020@citchennai.net',
-						password: 'Loki@123'
+						email: '',
+						password: ''
 					}}
 					onSubmit={(value) => handleLoginSubmit(value)}
 					validationSchema={emailSignInValidationSchema}

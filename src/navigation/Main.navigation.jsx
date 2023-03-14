@@ -1,7 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-// import SliderNav from './Slider.navigation';
 import Zules from '../screens/Zules.screen';
 import Discover from '../screens/Discover.screen';
 import Setting from '../screens/Setting.screen';

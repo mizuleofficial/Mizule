@@ -90,13 +90,13 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 							</Text>
 						</View>
 						<HorizontalCarousel
-							zules={zules}
+							items={zules}
 							title={'More like this'}
 							itemWidth={windowWidth / 3.5}
 							itemHeight={windowWidth / 3.5 / (9 / 16)}
 						/>
 						<HorizontalCarousel
-							zules={zules}
+							items={zules}
 							title={'Based on your interests'}
 							itemWidth={windowWidth / 3.5}
 							itemHeight={windowWidth / 3.5 / (9 / 16)}

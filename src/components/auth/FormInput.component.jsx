@@ -7,11 +7,11 @@ const FormInput = ({ label, placeholder, value, error, touched, ...rest }) => {
 			<Text className='mb-1 text-base'>{label}</Text>
 			<View className={`border border-zinc-700 pl-3 rounded-md`}>
 				<TextInput
-					className='placeholder: text-slate-300 hover:file:bg-violet-100 '
 					value={value}
 					label={label}
 					placeholder={placeholder}
 					{...rest}
+					placeholderTextColor='#9f9f9fc1'
 				/>
 			</View>
 			{error && touched === true && (

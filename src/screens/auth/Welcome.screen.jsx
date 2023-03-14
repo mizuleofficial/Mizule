@@ -17,7 +17,8 @@ const WelcomeScreen = ({ navigation }) => {
 		GoogleSignin.configure({
 			// scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
 			webClientId:
-				'611763272117-p2149tn0hu0u142bgjtq18qct2md5bj6.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+				'611763272117-p2149tn0hu0u142bgjtq18qct2md5bj6.apps.googleusercontent.com',
+			// client ID of type WEB for your server (needed to verify user ID and offline access)
 			offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
 			forceCodeForRefreshToken: true // [Android] related to `serverAuthCode`, read the docs link below *.
 		});
@@ -29,7 +30,7 @@ const WelcomeScreen = ({ navigation }) => {
 			const { user } = await GoogleSignin.signIn();
 			await loginWithGoogle(user).then((res) => dispatch(createUser(res.data)));
 		} catch (error) {
-			('🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error);
+			'🚀 ~ file: SignIn.screen.jsx:30 ~ signIn= ~ error:', error;
 			// if (error.code === statusCodes.SIGN_IN_CANCELLED) {
 			// 	return;
 			// } else if (error.code === statusCodes.IN_PROGRESS) {
