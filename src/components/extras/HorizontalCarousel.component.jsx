@@ -20,13 +20,11 @@ const HorizontalCarousel = ({
 	if (!items) return;
 	return (
 		<View className='flex-1 mb-4'>
-			<View className='flex-row justify-between'>
-				<Text className='text-gray-300 text-base font-medium pb-2 '>
-					{title}
-				</Text>
-				<TouchableOpacity>
+			<View className='flex-row justify-between w-full items-center'>
+				<Text className='text-white text-base font-medium pb-2 '>{title}</Text>
+				{/* <TouchableOpacity>
 					<Text className='text-gray-300 font-medium pb-2'>View All</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<ScrollView
 				horizontal={true}
@@ -58,7 +56,10 @@ const HorizontalCarousel = ({
 									end={{ x: 0, y: 0 }}
 									className='pt-3 px-2'
 								>
-									<Text className='font-black'>{item.title}</Text>
+									<Text className='font-black text-white'>
+										{item.title.substring(0, 20)}
+										{item.title.length > 20 && '...'}
+									</Text>
 								</LinearGradient>
 							)}
 						</ImageBackground>

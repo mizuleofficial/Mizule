@@ -24,16 +24,19 @@ const VideoPlayer = ({
 			// onError={this.videoError} // Callback when video cannot be loaded
 			onEnd={async () => {
 				setHideThumbnail(false);
-				await updateTeaserHistory(user.id_user, zule.id_zule, 'teaser').then(
-					(res) => {
-						dispatch(
-							updateHistory({
-								history: res.data.history,
-								type: 'teaser'
-							})
-						);
-					}
-				);
+				await updateTeaserHistory(
+					user.id_user,
+					zule.id_zule,
+					'teaser',
+					user.token
+				).then((res) => {
+					dispatch(
+						updateHistory({
+							history: res.data.history,
+							type: 'teaser'
+						})
+					);
+				});
 			}}
 			className='h-full w-full'
 			resizeMode='cover'

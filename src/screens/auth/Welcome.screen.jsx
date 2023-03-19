@@ -85,7 +85,7 @@ const WelcomeScreen = ({ navigation }) => {
 						</Text>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity>
+				{/* <TouchableOpacity>
 					<View className='flex flex-row border border-zinc-700  py-2 justify-center items-center bg-transparent rounded-md'>
 						<Image
 							className='w-6 h-7'
@@ -96,7 +96,7 @@ const WelcomeScreen = ({ navigation }) => {
 							Continue with Apple
 						</Text>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 		</View>
 	);

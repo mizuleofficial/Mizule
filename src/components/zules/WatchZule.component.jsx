@@ -32,13 +32,12 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 					source={{ uri: zule.fullZule }}
 					style={{ width: windowWidth, height: windowWidth / (16 / 9) }}
 					resizeMode='contain'
-					muted
 					controls={true}
 				/>
 				<ScrollView showsVerticalScrollIndicator={false} overScrollMode='never'>
 					<View className='flex justify-start items-start p-3 '>
 						<View className='w-full'>
-							<Text className='text-xl text-gray-200 font-black pb-2 pr-20'>
+							<Text className='text-xl text-white font-black pb-2 pr-20'>
 								{zule.title}
 							</Text>
 
@@ -67,10 +66,10 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 										</View>
 									</View>
 									<View style={{ flexDirection: 'row' }}>
-										{zule.category?.map((category, index) => (
+										{zule.genre?.map((genre, index) => (
 											<Text className='text-neutral-400' key={index}>
-												{category}
-												{zule.category.length - 1 !== index && ' • '}
+												{genre}
+												{zule.genre.length - 1 !== index && ' • '}
 											</Text>
 										))}
 									</View>
@@ -83,12 +82,11 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 								</View>
 							</View>
 							<Text className='text-justify leading-4 text-sm w-full pb-3'>
-								{zule.description} lorem fgiuagch byifgecbdu iugefhbvudjb
-								ughdvusj uigevhiudgxb vdux jkvbveugdcakbj lorem fgiuagch
-								byifgecbdu iugefhbvudjb ughdvusj uigevhiudgxb vduxj
-								kvbveugdcakbj
+								{zule.description}
 							</Text>
 						</View>
+
+						<View className='w-full bg-slate-50 h-[1px] mb-3'></View>
 						<HorizontalCarousel
 							items={zules}
 							title={'More like this'}

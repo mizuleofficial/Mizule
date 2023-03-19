@@ -38,10 +38,10 @@ const IndividualZule = ({ zule, activeIndex, fetchRandomZules, index }) => {
 		// 	getCachedContent(randomZules[activeIndex].zuleThumbnail).then((res) =>
 		// 		setCurrentlyZuleThumbnail(res)
 		// 	);
-		index === activeIndex &&
-			setTimeout(() => {
-				setHideThumbnail(true);
-			}, 3000);
+		// index === activeIndex &&
+		// 	setTimeout(() => {
+		// 		setHideThumbnail(true);
+		// 	}, 3000);
 	}, [activeIndex]);
 	useEffect(() => {
 		Animated.timing(opacityAnimation, {

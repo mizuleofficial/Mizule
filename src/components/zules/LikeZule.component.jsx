@@ -13,7 +13,7 @@ const LikeZule = ({ zule, user, activeIndex }) => {
 		<TouchableOpacity
 			className='items-center flex-row justify-center justify-items-center ml-2'
 			onPress={async () =>
-				await likeZule(user.id_user, zule.id_zule).then((res) => {
+				await likeZule(user.id_user, zule.id_zule, user.token).then((res) => {
 					if (res.data === 'ok') {
 						dispatch(
 							likeZuleTeaser({

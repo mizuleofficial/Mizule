@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 
 import FormInput from '../../components/auth/FormInput.component';
-import { emailSignInValidationSchema } from '../../utils/validation.utils';
+import { emailSignInValidationSchema } from '../../utils/validationSchema/AuthValidation.utils';
 import { login } from '../../axios/auth.axios';
 import { createUser } from '../../redux/reducers/users/user.slice';
 

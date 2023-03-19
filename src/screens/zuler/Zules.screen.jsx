@@ -3,16 +3,16 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
-import { getRandomZules } from '../axios/zule.axios';
-import { base_url, windowWidth } from '../utils/constants.util';
-import CircularNav from '../components/extras/CircularNav.component';
-import SliderCarousel from '../components/extras/Carousel.component';
-import IndividualZule from '../components/zules/IndividualZule.component';
-import WatchZule from '../components/zules/WatchZule.component';
-import { cacheContent } from '../utils/cacheContent.util';
-import { fetchZules } from '../redux/reducers/zules/zules.slice';
-import Header from '../components/zules/Header.component';
-import LoadingZule from '../components/zules/LoadingZule.component';
+import { getRandomZules } from '../../axios/zule.axios';
+import { base_url, windowWidth } from '../../utils/constants.util';
+// import CircularNav from '../../components/extras/CircularNav.component';
+import SliderCarousel from '../../components/extras/Carousel.component';
+import IndividualZule from '../../components/zules/IndividualZule.component';
+import WatchZule from '../../components/zules/WatchZule.component';
+import { cacheContent } from '../../utils/cacheContent.util';
+import { fetchZules } from '../../redux/reducers/zules/zules.slice';
+import Header from '../../components/zules/Header.component';
+import LoadingZule from '../../components/zules/LoadingZule.component';
 
 const Zules = ({ navigation }) => {
 	const [isWatchZuleOpen, setIsWatchZuleOpen] = useState(false);
@@ -23,14 +23,20 @@ const Zules = ({ navigation }) => {
 	const { user, zules } = useSelector((state) => ({ ...state }));
 
 	const fetchRandomZules = async (zuleOffset) => {
-		// , user && user.token
-		return await getRandomZules(zuleOffset).then(async (res) => {
+		return await getRandomZules(zuleOffset, user.token).then(async (res) => {
 			if (!res.data.length) return;
 			const zules = res.data.map((zule) => {
-				const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-teaser.mp4`;
-				const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-zule.mp4`;
-				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/g2pc28g0l9vgb/${zule.id_zule}-thumbnail.jpg`;
-				return { ...zule, zuleTeaser, fullZule, zuleThumbnail };
+				const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-teaser.mp4`;
+				const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-zule.mp4`;
+				const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-zule-thumbnail.jpg`;
+				const teaserThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-teaser-thumbnail.jpg`;
+				return {
+					...zule,
+					zuleTeaser,
+					fullZule,
+					zuleThumbnail,
+					teaserThumbnail
+				};
 			});
 			return zules;
 		});
@@ -39,9 +45,9 @@ const Zules = ({ navigation }) => {
 	useEffect(() => {
 		fetchRandomZules(0).then((zules) => {
 			setLoading(false);
-			cacheContent(zules[0].zuleTeaser, user.token);
-			// cacheContent(zules[0].zuleThumbnail, user.token);
-			cacheContent(zules[1].zuleTeaser, user.token);
+			zules[0] && cacheContent(zules[0].zuleTeaser, user.token);
+			// // cacheContent(zules[0].zuleThumbnail, user.token);
+			zules[1] && cacheContent(zules[1].zuleTeaser, user.token);
 			// cacheContent(zules[1].zuleThumbnail, user.token);
 			// getCachedContent(zules[0].zuleTeaser).then((res) => {
 			// 	setCurrentlyPlayingTeaser(res);
@@ -89,7 +95,7 @@ const Zules = ({ navigation }) => {
 				isWatchZuleOpen={isWatchZuleOpen}
 				setIsWatchZuleOpen={setIsWatchZuleOpen}
 			/>
-			<CircularNav navigation={navigation} />
+			{/* <CircularNav navigation={navigation} /> */}
 		</View>
 	);
 };

@@ -17,7 +17,7 @@ const IndividualZuleInfo = ({ zule, user, activeIndex }) => {
 					<Text className='font-bold text-white text-lg'>{zule.title}</Text>
 					<LikeZule zule={zule} user={user} activeIndex={activeIndex} />
 				</View>
-				<View className='flex-row items-center'>
+				{/* <View className='flex-row items-center'>
 					<Image
 						source={{
 							uri: zule.zuleSpot.icon
@@ -30,12 +30,12 @@ const IndividualZuleInfo = ({ zule, user, activeIndex }) => {
 						</Text>
 						<Text className='text-[#1c9cfd] text-xs'>Follow</Text>
 					</View>
-				</View>
+				</View> */}
 				<View style={{ flexDirection: 'row' }}>
-					{zule.category?.map((category, index) => (
+					{zule.genre?.map((genre, index) => (
 						<Text key={index}>
-							{category}
-							{zule.category.length - 1 !== index && ' • '}
+							{genre}
+							{zule.genre.length - 1 !== index && ' • '}
 						</Text>
 					))}
 				</View>

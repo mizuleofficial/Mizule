@@ -10,7 +10,7 @@ import 'react-native-gesture-handler';
 import { Formik } from 'formik';
 
 import FormInput from '../../components/auth/FormInput.component';
-import { emailSignUpValidationSchema } from '../../utils/validation.utils';
+import { emailSignUpValidationSchema } from '../../utils/validationSchema/AuthValidation.utils';
 import { verifyEmail } from '../../axios/auth.axios';
 
 const SignUp = ({ navigation, route }) => {

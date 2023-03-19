@@ -8,9 +8,9 @@ import {
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import CircularNav from '../components/extras/CircularNav.component';
-import HorizontalCarousel from '../components/extras/HorizontalCarousel.component';
-import { windowWidth } from '../utils/constants.util';
+// import CircularNav from '../../components/extras/CircularNav.component';
+import HorizontalCarousel from '../../components/extras/HorizontalCarousel.component';
+import { windowWidth } from '../../utils/constants.util';
 
 const Discover = ({ navigation }) => {
 	const { zules } = useSelector((state) => ({ ...state }));
@@ -37,7 +37,7 @@ const Discover = ({ navigation }) => {
 	return (
 		<View className='flex-1 w-full bg-black justify-start items-center p-4 '>
 			<View className='flex flex-row justify-start items-center bg-stone-800 rounded-lg pl-3 w-full'>
-				<Image className='w-5 h-5 ' source={require('../assets/search.png')} />
+				<Image className='w-5 h-5 ' source={require('../../assets/search.png')} />
 
 				<TextInput
 					className=' font-normal text-xs placeholder:text-xs h-9  pl-2 text-white '
@@ -107,7 +107,7 @@ const Discover = ({ navigation }) => {
 					/>
 				</ScrollView>
 			</View>
-			<CircularNav navigation={navigation} />
+			{/* <CircularNav navigation={navigation} /> */}
 		</View>
 	);
 };

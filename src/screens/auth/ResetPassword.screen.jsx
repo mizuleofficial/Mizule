@@ -14,7 +14,7 @@ import FormInput from '../../components/auth/FormInput.component';
 import {
 	ResetPasswordEmailValidationSchema,
 	ResetPasswordValidationSchema
-} from '../../utils/validation.utils';
+} from '../../utils/validationSchema/AuthValidation.utils';
 import {
 	verifyResetPasswordEmail,
 	resetPassword
