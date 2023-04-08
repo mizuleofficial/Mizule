@@ -44,7 +44,7 @@ const HorizontalCarousel = ({
 								}
 							]}
 							source={{
-								uri: item.zuleThumbnail
+								uri: item.teaserThumbnail
 							}}
 							key={i}
 						>

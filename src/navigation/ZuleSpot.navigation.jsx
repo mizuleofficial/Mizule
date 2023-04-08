@@ -45,7 +45,7 @@ const ZuleSpotBottomTab = () => {
 			tabBarPosition='bottom'
 		>
 			{/* <Tab.Screen name='Statistics' component={Statistics} /> */}
-			<Tab.Screen name='My Zules' component={MyZules} />
+			{/* <Tab.Screen name='My Zules' component={MyZules} /> */}
 			<Tab.Screen name='Create Zule' component={CreateZule} />
 		</Tab.Navigator>
 	);

@@ -70,7 +70,7 @@ const IndividualZule = ({ zule, activeIndex, fetchRandomZules, index }) => {
 					{!hideThumbnail && (
 						<Image
 							source={{
-								uri: zule.zuleThumbnail
+								uri: zule.teaserThumbnail
 							}}
 							className={`w-full h-full transition-opacity`}
 						/>

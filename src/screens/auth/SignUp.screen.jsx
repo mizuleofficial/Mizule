@@ -88,7 +88,8 @@ const SignUp = ({ navigation, route }) => {
 									handleSubmit={handleSubmit}
 									error={errors.password}
 									touched={touched.password}
-								/>
+									secureTextEntry={true}
+									/>
 								<FormInput
 									onChangeText={handleChange('confirmpassword')}
 									onBlur={handleBlur('confirmpassword')}
@@ -98,6 +99,7 @@ const SignUp = ({ navigation, route }) => {
 									handleSubmit={handleSubmit}
 									error={errors.confirmpassword}
 									touched={touched.confirmpassword}
+									secureTextEntry={true}
 								/>
 								{error && <Text className='text-red-800'>{error}</Text>}
 								<TouchableOpacity

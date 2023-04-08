@@ -17,7 +17,7 @@ const VideoPlayer = ({
 	return (
 		<Video
 			source={{
-				uri: currentlyPlayingTeaser ? currentlyPlayingTeaser : zule.zuleTeaser
+				uri: currentlyPlayingTeaser ? zule.zuleTeaser : zule.zuleTeaser
 			}} // Can be a URL or a local file.
 			// ref={(ref) => {}} // Store reference
 			// onBuffer={this.onBuffer} // Callback when remote video is buffering

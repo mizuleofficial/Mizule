@@ -10,6 +10,8 @@ const MyZules = () => {
 	const { user } = useSelector((state) => ({ ...state }));
 	const [zules, setZules] = useState([]);
 
+	if (!user.zuleSpot) return;
+
 	useEffect(() => {
 		getMyZules(user.zuleSpot.id_zuleSpot, user.id_user, user.token).then(
 			({ data }) => {

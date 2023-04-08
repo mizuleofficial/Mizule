@@ -31,7 +31,7 @@ const LikeZule = ({ zule, user, activeIndex }) => {
 					source={{
 						uri: 'https://img.icons8.com/ios-filled/50/ff0000/hearts.png'
 					}}
-					className='w-5 h-5'
+					className='w-7 h-7'
 				/>
 			) : (
 				<Image

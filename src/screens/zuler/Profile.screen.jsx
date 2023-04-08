@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { logoutUser } from '../../redux/reducers/users/user.slice';
-import { getTeaserHistory } from '../../axios/user.axios';
+import { getTeaserHistory, getLiked } from '../../axios/user.axios';
 
 const Profile = ({ navigation }) => {
 	const panelRef = useRef(null);
@@ -34,6 +34,23 @@ const Profile = ({ navigation }) => {
 	useEffect(() => {
 		getTeaserHistory(user.id_user, user.token).then(({ data }) =>
 			setHistory(
+				data.map((zule) => {
+					const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-teaser.mp4`;
+					const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-zule.mp4`;
+					const zuleThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-zule-thumbnail.jpg`;
+					const teaserThumbnail = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-teaser-thumbnail.jpg`;
+					return {
+						...zule,
+						zuleTeaser,
+						fullZule,
+						zuleThumbnail,
+						teaserThumbnail
+					};
+				})
+			)
+		);
+		getLiked(user.id_user, user.token).then(({ data }) =>
+			setLiked(
 				data.map((zule) => {
 					const zuleTeaser = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-teaser.mp4`;
 					const fullZule = `${base_url}/zules/${zule.id_zuleSpot}/${user.id_user}/${zule.title}-zule.mp4`;
@@ -91,7 +108,7 @@ const Profile = ({ navigation }) => {
 				/>
 				<View className='pl-3'>
 					<Text className='font-medium text-xl text-white'>{user.name}</Text>
-					{user.zuleSpot ? (
+					{!user.zuleSpot ? (
 						<TouchableOpacity onPress={() => navigation.navigate('ZuleSpot')}>
 							<Text className='text-base font-normal text-center text-white'>
 								Visit my Zulespot
@@ -139,8 +156,8 @@ const Profile = ({ navigation }) => {
 					))}
 					{/* </ScrollView> */}
 				</View>
-				<View className='flex-1 flex-row flex-wrap w-full h-screen bg-white'>
-					<ScrollView>
+				<ScrollView showsVerticalScrollIndicator={false}>
+					<View className='flex-1 flex-row flex-wrap w-full h-screen'>
 						{selectedType === 'liked' &&
 							(liked.length > 0 ? (
 								liked.map((item, i) => (
@@ -201,8 +218,8 @@ const Profile = ({ navigation }) => {
 									You haven't watched any zules yet
 								</Text>
 							))}
-					</ScrollView>
-				</View>
+					</View>
+				</ScrollView>
 			</View>
 			{/* {cardType == 'Downloads' ? (
 				<SliderCarousel

@@ -45,9 +45,9 @@ const Zules = ({ navigation }) => {
 	useEffect(() => {
 		fetchRandomZules(0).then((zules) => {
 			setLoading(false);
-			zules[0] && cacheContent(zules[0].zuleTeaser, user.token);
+			// zules[0] && cacheContent(zules[0].zuleTeaser, user.token);
 			// // cacheContent(zules[0].zuleThumbnail, user.token);
-			zules[1] && cacheContent(zules[1].zuleTeaser, user.token);
+			// zules[1] && cacheContent(zules[1].zuleTeaser, user.token);
 			// cacheContent(zules[1].zuleThumbnail, user.token);
 			// getCachedContent(zules[0].zuleTeaser).then((res) => {
 			// 	setCurrentlyPlayingTeaser(res);

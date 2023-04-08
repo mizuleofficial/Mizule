@@ -43,7 +43,7 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 
 							<View className='flex-row mb-2'>
 								<Image
-									source={{ uri: zule.zuleThumbnail }}
+									source={{ uri: zule.teaserThumbnail }}
 									style={{
 										width: windowWidth / 6,
 										height: windowWidth / 6 / (3 / 4)
@@ -88,7 +88,7 @@ const WatchZule = ({ zule, isWatchZuleOpen, setIsWatchZuleOpen }) => {
 
 						<View className='w-full bg-slate-50 h-[1px] mb-3'></View>
 						<HorizontalCarousel
-							items={zules}
+							items={[...zules].sort(() => Math.random() - 0.5)}
 							title={'More like this'}
 							itemWidth={windowWidth / 3.5}
 							itemHeight={windowWidth / 3.5 / (9 / 16)}
